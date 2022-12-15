@@ -11,7 +11,7 @@
     <title>$Title$</title>
 </head>
 <body>
-<form action="/convert">
+<form action="/currency">
     <fieldset style="display: inline">
         <legend><b>Ứng dụng đổi tiền</b></legend>
         <table>
