@@ -12,6 +12,6 @@ import java.util.List;
 public interface IBlogRepository extends JpaRepository<Blog,Integer> {
 
 
-    @Query(value = "select * from blog_manager.blog where id = :id",nativeQuery = true)
+    @Query(value = "select * from blog where category_id = :id",nativeQuery = true)
     Page<Blog> selectByCategory(@Param("id") int id,Pageable pageable);
 }

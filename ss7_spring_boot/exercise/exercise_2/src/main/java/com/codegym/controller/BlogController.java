@@ -20,7 +20,7 @@ public class BlogController {
     ICategoryService iCategoryService;
 
     @RequestMapping("")
-    public String getHome(Model model, String id, @PageableDefault(size = 2)Pageable pageable) {
+    public String getHome(Model model, String id, @PageableDefault(size = 5)Pageable pageable) {
         if (id == null || id == "1" || id == "" || Integer.parseInt(id) == 1) {
             model.addAttribute("list",iBlogService.findAll(pageable));
             model.addAttribute("valueSelect",1);
@@ -28,6 +28,7 @@ public class BlogController {
             model.addAttribute("list",iBlogService.selectByCategory(Integer.parseInt(id),pageable));
             model.addAttribute("valueSelect",id);
         }
+
         model.addAttribute("categoryList",iCategoryService.findAll());
         model.addAttribute("blog",new Blog());
         model.addAttribute("category",new Category());
