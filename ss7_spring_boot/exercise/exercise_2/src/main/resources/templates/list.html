@@ -6,9 +6,22 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 </head>
 <body>
-<button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#addModal">Thêm mới blog</button>
+<input th:type="hidden" id="selectValue" th:value="${valueSelect}">
 <h1 class="text-center">Danh Sách Sản Phẩm</h1>
+<br>
+<center>
+    <div style="display: flex; justify-content: center">
+        <form action="/" id="cateSelect" method="post" style="width: 200px;">
+            <select style="display: inline" class="form-control" id="selectCategoryValue" name="id" onchange="document.getElementById('cateSelect').submit()">
+                <option th:each="cate : ${categoryList}" th:value="${cate.id}"  th:text="${cate.name}"></option>
+            </select>
+        </form>&nbsp;&nbsp;
+        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#addModal">Thêm mới blog</button> &nbsp;&nbsp;
+        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#tableCategory">Quản Lí Danh Mục</button>
 
+    </div>
+</center>
+<br>
   <table class="table" border="1">
       <thead>
       <tr>
@@ -16,6 +29,7 @@
           <th>Tiêu Đề</th>
           <th>Tác giả</th>
           <th>Nội Dung</th>
+          <th>Danh Mục</th>
           <th>Sửa</th>
           <th>Xóa</th>
           <th>Xem</th>
@@ -27,19 +41,109 @@
          <td th:text="${blog.title}"></td>
          <td th:text="${blog.writer}"></td>
          <td th:text="${blog.content}"></td>
+         <td th:text="${blog.category.name}"></td>
          <td>
-            <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#editModal" th:attr="onclick=|updateBlog('${blog.id}','${blog.title}','${blog.writer}','${blog.content}')|">Sửa</button>
+            <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#editModal" th:attr="onclick=|updateBlog('${blog.id}','${blog.title}','${blog.writer}','${blog.content}','${blog.image}','${blog.date}','${blog.category.id}')|">Sửa</button>
          </td>
          <td>
              <button class="btn btn-danger" th:attr="onclick=|deleteBlog('${blog.id}','${blog.title}')|" data-bs-toggle="modal" data-bs-target="#deleteModal">Xóa</button></a>
          </td>
          <td>
-             <button>Xem</button>
+             <button class="btn btn-danger" th:attr="onclick=|viewBlog('${blog.image}','${blog.title}','${blog.writer}','${blog.content}')|" data-bs-toggle="modal" data-bs-target="#viewModal">Xem</button>
          </td>
      </tr>
      </tbody>
   </table>
+         <center>
+             <a th:if="${list.hasPrevious()}" th:href="@{/(page=${list.number -1})}">Previous</a>
+             <span th:text="${list.number +1}"></span>
+             <a th:if="${list.hasNext()}" th:href="@{/(page=${list.number +1})}">Next</a>
+         </center>
+<div class="modal" tabindex="-1" id="addCate">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Thêm mới Danh Mục <i class="fa-sharp fa-solid fa-user"></i></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form th:action="@{/addCategory}" th:method="post" th:object="${category}">
+                    <div class="mb-3 row">
+                        <label class="col-sm-2 col-form-label"> Tên Danh Mục</label>
+                        <div class="col-sm-10">
 
+                            <input type="text" th:field="*{name}"  class="form-control" >
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                        <button type="submit" class="btn btn-primary">Xác Nhận</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" id="tableCategory">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Quản lí Danh Mục</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+                <div class="modal-body">
+                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addCate">Thêm Danh Mục</button>
+                   <table class="table">
+                       <tr>
+                           <th>#</th>
+                           <th>Danh Mục</th>
+                           <th>Sửa</th>
+                           <th>Xóa</th>
+                       </tr>
+                       <tr th:each="cate ,status: ${categoryList}">
+                           <td th:text="${status.count}"></td>
+                           <td th:text="${cate.name}"></td>
+                           <td>
+                               <button data-bs-toggle="modal" class="btn btn-outline-success" data-bs-target="#updateCategory" th:attr="onclick=|updateCate('${cate.id}','${cate.name}')|">Sửa</button>
+                           </td>
+                           <td>
+                               <button data-bs-toggle="modal" class="btn btn-outline-danger" data-bs-target="#deleteCategory" th:attr="onclick=|deleteCate('${cate.id}','${cate.name}')|">Xóa</button>
+                           </td>
+                       </tr>
+                   </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
+                </div>
+        </div>
+    </div>
+</div>
+<div class="modal" tabindex="-1" id="updateCategory">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Sửa Danh Mục</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form th:action="@{/addCategory}" th:method="post" th:object="${category}">
+                    <div class="mb-3 row">
+                        <label class="col-sm-2 col-form-label"> Sửa Tên Danh Mục</label>
+                        <div class="col-sm-10">
+                            <input type="text" th:field="*{name}" id="nameCategoryUpdate"  class="form-control" >
+                            <input type="hidden" th:field="*{id}" id="idCategoryUpdate"  class="form-control" >
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                        <button type="submit" class="btn btn-primary">Xác Nhận</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="modal" tabindex="-1" id="addModal">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
@@ -51,22 +155,42 @@
                 <form th:action="@{/add}" th:method="post" th:object="${blog}">
 
                     <div class="mb-3 row">
-                        <label class="col-sm-2 col-form-label">Nhập tên Tiêu Đề</label>
+                        <label class="col-sm-2 col-form-label"> Tiêu Đề</label>
                         <div class="col-sm-10">
 
                             <input type="text" th:field="*{title}"  class="form-control" >
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        <label class="col-sm-2 col-form-label">Nhập tên tác giả</label>
+                        <label class="col-sm-2 col-form-label">Tác giả</label>
                         <div class="col-sm-10">
                           <input type="text" th:field="*{writer}" class="form-control" >
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        <label class="col-sm-2 col-form-label">Nhập Nội dung</label>
+                        <label class="col-sm-2 col-form-label">Ngày đăng</label>
+                        <div class="col-sm-10">
+                            <input type="date" th:field="*{date}" class="form-control" >
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-sm-2 col-form-label">Danh mục</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" th:field="*{category}">
+                                <option th:each="cate : ${categoryList}" th:value="${cate.id}" th:text="${cate.name}"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-sm-2 col-form-label">Nội dung</label>
                         <div class="col-sm-10">
                             <input type="text" th:field="*{content}" class="form-control" >
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-sm-2 col-form-label">Ảnh đại diện</label>
+                        <div class="col-sm-10">
+                            <input type="text" th:field="*{image}" class="form-control" >
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -89,7 +213,7 @@
                 <form th:action="@{/add}" th:method="post" th:object="${blog}">
 
                     <div class="mb-3 row">
-                        <label class="col-sm-2 col-form-label">Nhập tên Tiêu Đề</label>
+                        <label class="col-sm-2 col-form-label">Tiêu Đề</label>
                         <div class="col-sm-10">
 
                             <input type="hidden" id="idEdit" th:field="*{id}"  class="form-control" >
@@ -97,15 +221,35 @@
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        <label class="col-sm-2 col-form-label">Nhập tên tác giả</label>
+                        <label class="col-sm-2 col-form-label">Tác giả</label>
                         <div class="col-sm-10">
                             <input type="text" id="writerEdit" th:field="*{writer}" class="form-control" >
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        <label class="col-sm-2 col-form-label">Nhập Nội dung</label>
+                        <label class="col-sm-2 col-form-label">Nội dung</label>
                         <div class="col-sm-10">
                             <input type="text" id="contentEdit" th:field="*{content}" class="form-control" >
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-sm-2 col-form-label">Ngày đăng</label>
+                        <div class="col-sm-10">
+                            <input type="date" id="dateEdit" th:field="*{date}" class="form-control" >
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-sm-2 col-form-label">Danh mục</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" id="cateGoryEdit" th:field="*{category}">
+                                <option th:each="cate : ${categoryList}" th:value="${cate.id}" th:text="${cate.name}"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-sm-2 col-form-label">Ảnh đại diện</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="imageEdit" th:field="*{image}" class="form-control" >
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -138,13 +282,81 @@
         </div>
     </div>
 </div>
+<div class="modal" tabindex="-1" id="deleteCategory">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Xác Nhận Xóa Category</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/deleteCategory" method="post">
+                <div class="modal-body">
+                    <p >Bạn có chắc chắn muốn xóa Danh Mục <b>
+                        <span style="color: red" id="deleteCategoryName"></span> ?
+                    </b>
+                </div>
+                <input type="hidden" name="id" id="deleteCategoryId">
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Xóa</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+<div class="modal" tabindex="-1" id="viewModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Xem Nội dung</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+                <div class="modal-body">
+                        <img class="card-img-top"  style="width: 150px;height: 150px;display: flex" id="imageView" src="" alt="Card image cap">
+                            <h1 class="card-text" id="titleText"></h1>
+                            <h2 class="card-text" id="writerText"></h2>
+                            <h3 class="card-text" id="contentText"></h3>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Thoát</button>
+                </div>
+        </div>
+    </div>
+</div>
 </body>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script>
-    function updateBlog(id,title,writer,content){
+    function deleteCate(id,name) {
+        document.getElementById("deleteCategoryId").value = id;
+        document.getElementById("deleteCategoryName").innerText = name;
+    }
+
+    function updateCate(id,name) {
+        document.getElementById("idCategoryUpdate").value = id;
+        document.getElementById("nameCategoryUpdate").value = name;
+    }
+
+    let x = document.getElementById("selectValue").value;
+    document.getElementById("selectCategoryValue").value = x;
+    function viewBlog(image,title,writer,content){
+        document.getElementById("imageView").src = image;
+        document.getElementById("contentText").innerHTML = "Nội dung :\n" +  content;
+        document.getElementById("titleText").innerHTML = "Chủ đề: " + title;
+        document.getElementById("writerText").innerHTML = "Tác giả :" +writer;
+    }
+
+
+
+    function updateBlog(id,title,writer,content,image,date,category){
         document.getElementById("idEdit").value= id;
         document.getElementById("titleEdit").value= title;
         document.getElementById("writerEdit").value= writer;
         document.getElementById("contentEdit").value= content;
+        document.getElementById("imageEdit").value= image;
+        document.getElementById("dateEdit").value= date;
+        document.getElementById("cateGoryEdit").value= category;
     }
     function deleteBlog(id,title) {
         document.getElementById("idDelete").value= id;
