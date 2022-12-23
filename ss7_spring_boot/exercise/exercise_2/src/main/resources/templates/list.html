@@ -43,7 +43,7 @@
     </thead>
     <tbody>
     <tr th:each="blog,status : ${list}">
-        <td th:text="${status.count}"></td>
+        <td th:text="${status.count + list.number * list.size}"></td>
         <td th:text="${blog.title}"></td>
         <td th:text="${blog.writer}"></td>
         <td th:text="${blog.content}"></td>
@@ -374,7 +374,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <img class="card-img-top" style="width: 150px;height: 150px;display: flex" id="imageView" src=""
+                <img class="card-img-top" style="width: 300px;height: 300px;display: flex" id="imageView" src=""
                      alt="Card image cap">
                 <h1 class="card-text" id="titleText"></h1>
                 <h2 class="card-text" id="writerText"></h2>
