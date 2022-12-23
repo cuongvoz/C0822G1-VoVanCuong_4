@@ -28,7 +28,6 @@ public class FormController {
 
     @PostMapping("/create")
     public String createUser(@Validated @ModelAttribute("user") UserDto user, BindingResult bindingResult,Model model) {
-
         new UserDto().validate(user, bindingResult);
         if (bindingResult.hasErrors()) {
             return "/form";

@@ -45,20 +45,23 @@
                         <label class="col-sm-2 col-form-label">Bài Hát</label>
                         <div class="col-sm-10">
                             <input type="hidden" id="idEdit" th:field="*{id}" class="form-control" >
-                            <input type="hidden" name="modal" value="addz" class="form-control" >
+                            <input type="hidden" name="modal" value="editz" class="form-control" >
                             <input type="text" id="nameEdit" th:field="*{name}" class="form-control" >
+                            <div th:errors="*{name}" class="text-danger" style="font-weight: bold"></div>
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <label class="col-sm-2 col-form-label">Ca Sỹ</label>
                         <div class="col-sm-10">
                             <input type="text" id="singedEdit" th:field="*{singed}" class="form-control" >
+                            <div th:errors="*{singed}" class="text-danger" style="font-weight: bold"></div>
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <label class="col-sm-2 col-form-label">Thế Loại</label>
                         <div class="col-sm-10">
                             <input type="text" id="categoryEdit" th:field="*{category}" class="form-control" >
+                            <div th:errors="*{category}" class="text-danger" style="font-weight: bold"></div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -83,26 +86,23 @@
                     <div class="mb-3 row">
                         <label class="col-sm-2 col-form-label">Bài Hát</label>
                         <div class="col-sm-10">
-                            <input type="hidden" name="modal" value="editz" class="form-control" >
+                            <input type="hidden" name="modal" value="addz" class="form-control" >
                             <input type="text" th:field="*{name}" class="form-control" >
-<!--                            <p th:errors="*{name}" class="text-danger"></p>-->
-                            <p th:if="${#fields.hasErrors('name')}"
-                               th:class="${#fields.hasErrors('name')}? error">
-                                Invalid Age</p>
+                            <div th:errors="*{name}" class="text-danger" style="font-weight: bold"></div>
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <label class="col-sm-2 col-form-label">Ca Sỹ</label>
                         <div class="col-sm-10">
                             <input type="text" th:field="*{singed}" class="form-control" >
-                            <p th:errors="*{singed}" class="text-danger"></p>
+                            <div th:errors="*{singed}" class="text-danger" style="font-weight: bold"></div>
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <label class="col-sm-2 col-form-label">Thế Loại</label>
                         <div class="col-sm-10">
                             <input type="text" th:field="*{category}" class="form-control" >
-                            <p th:errors="*{category}" ></p>
+                            <div th:errors="*{category}" class="text-danger" style="font-weight: bold"></div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -114,7 +114,7 @@
         </div>
     </div>
 </div>
-<input id="modalAdd" type="text" th:value="${isModal}">
+<input id="modalAdd" type="hidden" th:value="${isModal}">
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js">
 </script>
@@ -126,6 +126,10 @@
        $(document).ready( function () {
            $('#addModal').appendTo('body').modal('show')
        })
+    } else if(a == "editz") {
+        $(document).ready( function () {
+            $('#editModal').appendTo('body').modal('show')
+        })
     }
 
     function update(id,name,singed,category) {

@@ -11,17 +11,16 @@ import javax.validation.constraints.Size;
 public class MusicDTO implements Validator {
 
     private int id;
-
     @NotBlank(message = "Không được để trống")
-    @Max(value = 800,message = "Không được vượt quá 800 Kí Tự")
+    @Size(max = 800,message = "Không được vượt quá 800 Kí Tự")
     @Pattern(regexp = "^[a-z A-Z]+$",message = "Không chứa các kí tự đặc biệt như @ ; , . = - + , ….")
     private String name;
     @NotBlank(message = "Không được để trống")
-    @Max(value = 300,message = "Không được vượt quá 300 Kí Tự")
+    @Size(max = 300,message = "Không được vượt quá 300 Kí Tự")
     @Pattern(regexp = "^[a-z A-Z]+$",message = "Không chứa các kí tự đặc biệt như @ ; , . = - + , ….")
     private String singed;
     @NotBlank(message = "Không được để trống")
-    @Max(value = 1000,message = "Không được vượt quá 1000 Kí Tự")
+    @Size(max = 1000,message = "Không được vượt quá 1000 Kí Tự")
     @Pattern(regexp = "^[a-z A-Z]+$",message = "Không chứa các kí tự đặc biệt như @ ; , . = - + , ….")
     private String category;
 
@@ -56,6 +55,7 @@ public class MusicDTO implements Validator {
     public void setCategory(String category) {
         this.category = category;
     }
+
 
     @Override
     public boolean supports(Class<?> clazz) {

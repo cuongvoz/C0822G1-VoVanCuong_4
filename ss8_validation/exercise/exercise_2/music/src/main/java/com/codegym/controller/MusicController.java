@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,18 +25,18 @@ public class MusicController {
 
     @RequestMapping("")
     public String getHome(Model model) {
-
-        model.addAttribute("list",this.musicService.findAll());
-        model.addAttribute("music",new MusicDTO());
+        List<Music> list1 = this.musicService.findAll();
+        model.addAttribute("list", list1);
+        model.addAttribute("music", new MusicDTO());
         return "/form";
     }
+
     @PostMapping("/add")
-    public String addMusic(@Validated @ModelAttribute("music") MusicDTO music, BindingResult bindingResult, Model model,String modal) {
-        new MusicDTO().validate(music,bindingResult);
+    public String addMusic(@Validated @ModelAttribute("music") MusicDTO music, BindingResult bindingResult, Model model, String modal) {
+        new MusicDTO().validate(music, bindingResult);
+        model.addAttribute("list", this.musicService.findAll());
         if (bindingResult.hasErrors()) {
-            model.addAttribute("isModal",modal);
-            model.addAttribute("list",this.musicService.findAll());
-            model.addAttribute("music",new MusicDTO());
+            model.addAttribute("isModal", modal);
             return "/form";
         }
         Music music1 = new Music();
