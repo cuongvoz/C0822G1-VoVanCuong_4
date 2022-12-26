@@ -36,7 +36,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Sửa thông tin bài hát <i class="fa-sharp fa-solid fa-user"></i></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button"  class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form th:action="@{/add}" method="post" th:object="${music}">
@@ -47,25 +47,25 @@
                             <input type="hidden" id="idEdit" th:field="*{id}" class="form-control" >
                             <input type="hidden" name="modal" value="editz" class="form-control" >
                             <input type="text" id="nameEdit" th:field="*{name}" class="form-control" >
-                            <div th:errors="*{name}" class="text-danger" style="font-weight: bold"></div>
+                            <div th:errors="*{name}" id="err6" class="text-danger" style="font-weight: bold"></div>
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <label class="col-sm-2 col-form-label">Ca Sỹ</label>
                         <div class="col-sm-10">
                             <input type="text" id="singedEdit" th:field="*{singed}" class="form-control" >
-                            <div th:errors="*{singed}" class="text-danger" style="font-weight: bold"></div>
+                            <div th:errors="*{singed}" id="err5" class="text-danger" style="font-weight: bold"></div>
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <label class="col-sm-2 col-form-label">Thế Loại</label>
                         <div class="col-sm-10">
                             <input type="text" id="categoryEdit" th:field="*{category}" class="form-control" >
-                            <div th:errors="*{category}" class="text-danger" style="font-weight: bold"></div>
+                            <div th:errors="*{category}" id="err4" class="text-danger" style="font-weight: bold"></div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                        <button type="button" onclick="displayNone2()" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
                         <button type="submit" class="btn btn-primary">Xác Nhận</button>
                     </div>
                 </form>
@@ -78,7 +78,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Thêm Mới Bài Hát <i class="fa-sharp fa-solid fa-user"></i></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button  type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form th:action="@{/add}" method="post" th:object="${music}">
@@ -87,26 +87,26 @@
                         <label class="col-sm-2 col-form-label">Bài Hát</label>
                         <div class="col-sm-10">
                             <input type="hidden" name="modal" value="addz" class="form-control" >
-                            <input type="text" th:field="*{name}" class="form-control" >
-                            <div th:errors="*{name}" class="text-danger" style="font-weight: bold"></div>
+                            <input type="text" id="addName" th:field="*{name}" class="form-control" >
+                            <div  th:errors="*{name}" id="err1" class="text-danger" style="font-weight: bold"></div>
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <label class="col-sm-2 col-form-label">Ca Sỹ</label>
                         <div class="col-sm-10">
-                            <input type="text" th:field="*{singed}" class="form-control" >
-                            <div th:errors="*{singed}" class="text-danger" style="font-weight: bold"></div>
+                            <input type="text" id="addSinged" th:field="*{singed}" class="form-control" >
+                            <div th:errors="*{singed}" id="err2" class="text-danger" style="font-weight: bold"></div>
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <label class="col-sm-2 col-form-label">Thế Loại</label>
                         <div class="col-sm-10">
-                            <input type="text" th:field="*{category}" class="form-control" >
-                            <div th:errors="*{category}" class="text-danger" style="font-weight: bold"></div>
+                            <input type="text" id="addCategory" th:field="*{category}" class="form-control" >
+                            <div th:errors="*{category}" id="err3" class="text-danger" style="font-weight: bold"></div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                        <button type="button" onclick="displayNone1()" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
                         <button type="submit" class="btn btn-primary">Xác Nhận</button>
                     </div>
                 </form>
@@ -130,6 +130,30 @@
         $(document).ready( function () {
             $('#editModal').appendTo('body').modal('show')
         })
+    }
+
+    function displayNone2() {
+        document.getElementById("err4").style.display = "none";
+        document.getElementById("err5").style.display = "none";
+        document.getElementById("err6").style.display = "none";
+        document.getElementById("err1").style.display = "none";
+        document.getElementById("err2").style.display = "none";
+        document.getElementById("err3").style.display = "none";
+        document.getElementById("addName").value ="";
+        document.getElementById("addSinged").value ="";
+        document.getElementById("addCategory").value ="";
+    }
+
+    function displayNone1() {
+        document.getElementById("err4").style.display = "none";
+        document.getElementById("err5").style.display = "none";
+        document.getElementById("err6").style.display = "none";
+        document.getElementById("err1").style.display = "none";
+        document.getElementById("err2").style.display = "none";
+        document.getElementById("err3").style.display = "none";
+        document.getElementById("addName").value ="";
+        document.getElementById("addSinged").value ="";
+        document.getElementById("addCategory").value ="";
     }
 
     function update(id,name,singed,category) {

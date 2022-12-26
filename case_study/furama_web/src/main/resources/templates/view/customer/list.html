@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{layout :: head('Customer')}">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:replace="~{layout :: header}"></div>
+<div class="row">
+    <nav class="navbar navbar-light" style="background-color: teal">
+        <div class="container-fluid" style="position: relative">
+            <a class="navbar-brand"
+               th:href="@{/}">Home</a>
+
+            <button class="btn btn-light" style="position: absolute;left: 100px" data-bs-toggle="modal"
+                    data-bs-target="#addmodal">Thêm Khách Hàng
+            </button>
+            <form action="/customer/find" method="get" style="position:absolute ;top: 1px;right: 30px"
+                  class="d-flex">
+                <input class="form-control me-2" type="search" name="name" placeholder="Họ Tên" aria-label="Search">
+                <input class="form-control me-2" type="search" name="address" placeholder="Địa Chỉ" aria-label="Search">
+                <input class="form-control me-2" type="search" name="type" placeholder="Kiểu Khách" aria-label="Search">
+                <button class="btn btn-outline-light" type="submit">Tìm</button>
+            </form>
+        </div>
+    </nav>
+</div>
+<table class="table">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Họ Tên</th>
+        <th>Ngày Sinh</th>
+        <th>Giới Tính</th>
+        <th>CMND</th>
+        <th>Số Điện Thoại</th>
+        <th>Email</th>
+        <th>Địa Chỉ</th>
+        <th>Loại Khách</th>
+        <th>Sửa</th>
+        <th>Xóa</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="customer ,status: ${list}">
+        <td th:text="${status.count}"></td>
+        <td th:text="${customer.name}"></td>
+        <td th:text="${customer.dateOfBirth}"></td>
+        <td th:if="${customer.gender}">
+            <span>Nam</span>
+        </td>
+        <td th:unless="${customer.gender}">
+            <span>Nữ</span>
+        </td>
+        <td th:text="${customer.iDCard}"></td>
+        <td th:text="${customer.phoneNumber}"></td>
+        <td th:text="${customer.email}"></td>
+        <td th:text="${customer.address}"></td>
+        <td th:text="${customer.customerType.name}"></td>
+        <td>
+            <button class="btn btn-outline-success" data-bs-toggle="modal"
+                    data-bs-target="#editModal" th:attr="onclick=|update('${customer.id}','${customer.name}','${customer.dateOfBirth}','${customer.gender}','${customer.iDCard}','${customer.phoneNumber}','${customer.email}','${customer.address}','${customer.customerType.id}')|">
+                <i class="fa-sharp fa-solid fa-pen"></i>
+            </button>
+        </td>
+        <td>
+            <button class="btn btn-outline-danger" data-bs-toggle="modal"
+                    data-bs-target="#deleteModal" th:attr="onclick=|deleteCustomer('${customer.id}','${customer.name}')|"><i class="fa-sharp fa-solid fa-trash"></i></i></button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+ <center>
+     <a  id="previousButton" style="pointer-events: none" class="btn btn-success">Previous</a>
+     <span class="btn btn-success" th:text="${list.number+1}"></span>
+     <a class="btn btn-success" style="pointer-events: none" id="nextButton">Next</a>
+     <input type="hidden" id="previous" th:value="${list.hasPrevious()}">
+     <input type="hidden" id="next" th:value="${list.hasNext()}">
+     <input type="hidden" id="pre" th:value="${list.number-1}">
+     <input type="hidden" id="nex" th:value="${list.number+1}">
+ </center>
+
+<div th:replace="~{layout :: footer}"></div>
+<div class="modal" tabindex="-1" id="addmodal">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Thêm mới khách hàng <i class="fa-sharp fa-solid fa-user"></i></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form th:action="@{/customer/add}" method="post" th:object="${customer}">
+                    <div class="mb-3 row">
+                        <label class="col-sm-2 col-form-label">Tên Khách Hàng: </label>
+                        <div class="col-sm-10">
+                            <input type="text" th:field="*{name}" class="form-control" name="name">
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-sm-2 col-form-label">Ngày Sinh</label>
+                        <div class="col-sm-10">
+                            <input type="date" th:field="*{dateOfBirth}" class="form-control" name="birthday">
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-sm-2 col-form-label">Giới Tính</label>
+                        <div class="col-sm-10">
+                            <input type="radio" th:field="*{gender}" name="gender" class="form-check-input"
+                                   value="true"> Nam
+                            <input type="radio" th:field="*{gender}" style="margin-left: 25px" name="gender"
+                                   class="form-check-input" value="false"> Nữ
+
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-sm-2 col-form-label">Số CMND</label>
+                        <div class="col-sm-10">
+                            <input type="number" th:field="*{iDCard}" class="form-control" name="iDCard">
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-sm-2 col-form-label">Số Điện Thoại </label>
+                        <div class="col-sm-10">
+                            <input th:field="*{phoneNumber}" type="number" class="form-control" name="phoneNumber">
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-sm-2 col-form-label">Email </label>
+                        <div class="col-sm-10">
+                            <input type="email" th:field="*{email}" class="form-control" name="email">
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-sm-2 col-form-label">Địa Chỉ </label>
+                        <div class="col-sm-10">
+                            <input type="text" th:field="*{address}" class="form-control" name="address">
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-sm-2 col-form-label">Kiểu Khách</label>
+                        <div class="col-sm-10">
+
+                            <select th:field="*{customerType}" class="form-select" name="customerType">
+                                <option th:each="type : ${listType}" th:value="${type.id}"
+                                        th:text="${type.name}"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                        <button type="submit" class="btn btn-primary">Xác Nhận</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" tabindex="-1" id="editModal">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Sửa thông tin khách hàng <i class="fa-sharp fa-solid fa-user"></i></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form th:action="@{/customer/add}" method="post" th:object="${customer}">
+                    <div class="mb-3 row">
+                        <label class="col-sm-2 col-form-label">Họ Tên: </label>
+                        <div class="col-sm-10">
+                            <input type="hidden" id="idEdit" th:field="*{id}">
+                            <input type="text" id="nameEdit" th:field="*{name}" class="form-control" name="name">
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-sm-2 col-form-label">Ngày Sinh</label>
+                        <div class="col-sm-10">
+                            <input type="date" id="dateOfBirthEdit" th:field="*{dateOfBirth}" class="form-control" name="birthday">
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-sm-2 col-form-label">Giới Tính</label>
+                        <div class="col-sm-10">
+                            <input type="radio" id="genderS1" checked th:field="*{gender}" name="gender" class="form-check-input"
+                                   value="true"> Nam
+                            <input type="radio" id="genderS2" th:field="*{gender}" style="margin-left: 25px" name="gender"
+                                   class="form-check-input" value="false"> Nữ
+
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-sm-2 col-form-label">Số CMND</label>
+                        <div class="col-sm-10">
+                            <input type="number" id="iDCardEdit" th:field="*{iDCard}" class="form-control" name="iDCard">
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-sm-2 col-form-label">Số Điện Thoại </label>
+                        <div class="col-sm-10">
+                            <input th:field="*{phoneNumber}" id="phoneNumberEdit" type="number" class="form-control" name="phoneNumber">
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-sm-2 col-form-label">Email </label>
+                        <div class="col-sm-10">
+                            <input type="email" id="emailEdit" th:field="*{email}" class="form-control" name="email">
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-sm-2 col-form-label">Địa Chỉ </label>
+                        <div class="col-sm-10">
+                            <input type="text" id="addressEdit" th:field="*{address}" class="form-control" name="address">
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-sm-2 col-form-label">Kiểu Khách</label>
+                        <div class="col-sm-10">
+                            <select th:field="*{customerType}" id="typeEdit" class="form-select" name="customerType">
+                                <option th:each="type : ${listType}" th:value="${type.id}"
+                                        th:text="${type.name}"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                        <button type="submit" class="btn btn-primary">Xác Nhận</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" tabindex="-1" id="deleteModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Xác Nhận Xóa</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form th:action="@{/customer/delete}" method="post">
+                <div class="modal-body">
+                    <p>Bạn có chắc chắn muốn xóa <b>
+                        <span id="nameDelete"></span>
+                    </b> ?</p>
+                </div>
+                <input type="hidden" name="id" id="idDelete">
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><Hủ></Hủ>y</button>
+                    <button type="submit" class="btn btn-primary">Xóa</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    function update(id,name,date,gender,cmnd,phoneNumber,email,address,typeId){
+       document.getElementById("idEdit").value = id;
+       document.getElementById("nameEdit").value = name;
+       document.getElementById("dateOfBirthEdit").value = date;
+       if (gender == "true") {
+           document.getElementById("genderS1").checked = true;
+           document.getElementById("genderS2").checked = false;
+       } else {
+           document.getElementById("genderS1").checked = false;
+           document.getElementById("genderS2").checked = true;
+       }
+       document.getElementById("iDCardEdit").value = cmnd;
+       document.getElementById("phoneNumberEdit").value = phoneNumber;
+       document.getElementById("emailEdit").value = email;
+       document.getElementById("addressEdit").value = address;
+       document.getElementById("typeEdit").value = typeId;
+    }
+    function deleteCustomer(id,name) {
+        document.getElementById("nameDelete").innerText = name;
+        document.getElementById("idDelete").value = id;
+    }
+    let checkPre = document.getElementById("previous").value;
+    if (checkPre == "true") {
+        let pre = document.getElementById("pre").value;
+        let pagePrelink = '/customer?page='+pre;
+        document.getElementById("previousButton").href = pagePrelink ;
+        document.getElementById("previousButton").style.pointerEvents = "auto";
+    } else {
+        document.getElementById("previousButton").style.pointerEvents = "none";
+        document.getElementById("previousButton").className = "btn btn-outline-success";
+    }
+    let checkNex = document.getElementById("next").value;
+
+    if (checkNex == "true") {
+        let next = document.getElementById("nex").value;
+        let pageNextLink = '/customer?page='+next;
+        document.getElementById('nextButton').href =pageNextLink;
+        document.getElementById("nextButton").style.pointerEvents = "auto";
+    } else {
+        document.getElementById("nextButton").style.pointerEvents = "none";
+        document.getElementById("nextButton").className = "btn btn-outline-success";
+    }
+
+</script>
+</html>
