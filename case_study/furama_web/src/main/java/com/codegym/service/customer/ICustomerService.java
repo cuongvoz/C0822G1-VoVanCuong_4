@@ -10,6 +10,6 @@ public interface ICustomerService {
     Page<Customer> findALL(Pageable pageable);
     void save(Customer customer);
     Customer findById(int id);
-    void delete(Customer customer);
-    Page<Customer> findByAll(String name,String address,String type,Pageable pageable);
+    void delete(int id);
+    Page<Customer> findByAll(String name, String email, String type, Pageable pageable);
 }

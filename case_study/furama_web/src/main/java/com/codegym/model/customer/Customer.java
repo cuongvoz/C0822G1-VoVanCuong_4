@@ -1,6 +1,7 @@
 package com.codegym.model.customer;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 public class Customer {
@@ -10,10 +11,24 @@ public class Customer {
    private String name;
    private String dateOfBirth;
    private boolean gender;
+   @Column(unique = true)
    private String iDCard;
+   @Column(unique = true)
    private String phoneNumber;
+   @Column(unique = true)
    private String email;
    private String address;
+   @Column(columnDefinition = "boolean default false")
+   private boolean isDelete;
+
+   public boolean isDelete() {
+      return isDelete;
+   }
+
+   public void setDelete(boolean delete) {
+      isDelete = delete;
+   }
+
    @ManyToOne
    @JoinColumn(name = "customerType",referencedColumnName = "id")
    private CustomerType customerType;

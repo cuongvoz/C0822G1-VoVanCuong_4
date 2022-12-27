@@ -8,6 +8,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface ICustomerRepository extends JpaRepository<Customer,Integer> {
-    @Query(value = "select c.* from `customer` c join `customer_type` ct on c.customer_type = ct.id  where c.name like %:name% and c.address like %:address% and ct.name like %:type%" ,nativeQuery = true )
-   Page<Customer> findByAll(@Param("name") String name,@Param("address") String address,@Param("type") String type, Pageable pageable);
+    @Query(value = "select c.* from `customer` c join `customer_type` ct on c.customer_type = ct.id  where c.name like %:name% and c.email like %:email% and ct.name like %:type% and c.is_delete = false order by c.id" ,nativeQuery = true )
+   Page<Customer> findByAll(@Param("name") String name,@Param("email") String email,@Param("type") String type, Pageable pageable);
+
+   @Query(value = "select * from `customer` c where c.is_delete = false order by c.id",nativeQuery = true)
+    Page<Customer> findAll(Pageable pageable);
+
 }

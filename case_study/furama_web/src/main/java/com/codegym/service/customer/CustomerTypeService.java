@@ -9,7 +9,7 @@ import java.util.List;
 @Service
 public class CustomerTypeService implements ICustomerTypeService{
     @Autowired
-    ICustomerTypeRepository iCustomerTypeRepository;
+   private ICustomerTypeRepository iCustomerTypeRepository;
 
 
     @Override

@@ -18,69 +18,90 @@
             <form action="/customer/find" method="get" style="position:absolute ;top: 1px;right: 30px"
                   class="d-flex">
                 <input class="form-control me-2" type="search" name="name" placeholder="Họ Tên" aria-label="Search">
-                <input class="form-control me-2" type="search" name="address" placeholder="Địa Chỉ" aria-label="Search">
-                <input class="form-control me-2" type="search" name="type" placeholder="Kiểu Khách" aria-label="Search">
+                <input class="form-control me-2" type="search" name="email" placeholder="Email" aria-label="Search">
+                <input class="form-control me-2" type="search" name="type" placeholder="Loại Khách" aria-label="Search">
                 <button class="btn btn-outline-light" type="submit">Tìm</button>
             </form>
         </div>
     </nav>
 </div>
-<table class="table">
-    <thead>
-    <tr>
-        <th>#</th>
-        <th>Họ Tên</th>
-        <th>Ngày Sinh</th>
-        <th>Giới Tính</th>
-        <th>CMND</th>
-        <th>Số Điện Thoại</th>
-        <th>Email</th>
-        <th>Địa Chỉ</th>
-        <th>Loại Khách</th>
-        <th>Sửa</th>
-        <th>Xóa</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="customer ,status: ${list}">
-        <td th:text="${status.count}"></td>
-        <td th:text="${customer.name}"></td>
-        <td th:text="${customer.dateOfBirth}"></td>
-        <td th:if="${customer.gender}">
-            <span>Nam</span>
-        </td>
-        <td th:unless="${customer.gender}">
-            <span>Nữ</span>
-        </td>
-        <td th:text="${customer.iDCard}"></td>
-        <td th:text="${customer.phoneNumber}"></td>
-        <td th:text="${customer.email}"></td>
-        <td th:text="${customer.address}"></td>
-        <td th:text="${customer.customerType.name}"></td>
-        <td>
-            <button class="btn btn-outline-success" data-bs-toggle="modal"
-                    data-bs-target="#editModal" th:attr="onclick=|update('${customer.id}','${customer.name}','${customer.dateOfBirth}','${customer.gender}','${customer.iDCard}','${customer.phoneNumber}','${customer.email}','${customer.address}','${customer.customerType.id}')|">
-                <i class="fa-sharp fa-solid fa-pen"></i>
-            </button>
-        </td>
-        <td>
-            <button class="btn btn-outline-danger" data-bs-toggle="modal"
-                    data-bs-target="#deleteModal" th:attr="onclick=|deleteCustomer('${customer.id}','${customer.name}')|"><i class="fa-sharp fa-solid fa-trash"></i></i></button>
-        </td>
-    </tr>
-    </tbody>
-</table>
- <center>
-     <a  id="previousButton" style="pointer-events: none" class="btn btn-success">Previous</a>
-     <span class="btn btn-success" th:text="${list.number+1}"></span>
-     <a class="btn btn-success" style="pointer-events: none" id="nextButton">Next</a>
-     <input type="hidden" id="previous" th:value="${list.hasPrevious()}">
-     <input type="hidden" id="next" th:value="${list.hasNext()}">
-     <input type="hidden" id="pre" th:value="${list.number-1}">
-     <input type="hidden" id="nex" th:value="${list.number+1}">
- </center>
+<div class="bgimg">
+    <br> <br> <br>
+    <div id="resultFind" style="backdrop-filter: blur(10px);color: aliceblue;font-weight: bold;width: 100%">
+        <center>
+            <h1 style="padding: 30px 0" th:if="${nameFind != ''}" th:text="${'Không tìm thấy tên ' + nameFind} "></h1>
+            <h1 style="padding: 30px 0" th:if="${emailFind != ''}"
+                th:text="${'Không tìm thấy email ' + emailFind} "></h1>
+            <h1 style="padding: 30px 0" th:if="${typeFind != ''}" th:text="${'Không tìm thấy kiểu ' + typeFind} "></h1>
+        </center>
+    </div>
+    <div id="checkTable">
+        <table class="table" style="backdrop-filter: blur(10px);color: aliceblue;font-weight: bold">
+            <thead>
+            <tr >
+                <th>#</th>
+                <th>Họ Tên</th>
+                <th>Ngày Sinh</th>
+                <th>Giới Tính</th>
+                <th>CMND</th>
+                <th>Số Điện Thoại</th>
+                <th>Email</th>
+                <th>Địa Chỉ</th>
+                <th>Loại Khách</th>
+                <th>Sửa</th>
+                <th>Xóa</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="customer ,status: ${list}">
+                <td th:text="${status.count + list.number * list.size}"></td>
+                <td th:text="${customer.name}"></td>
+                <td th:text="${customer.dateOfBirth}"></td>
+                <td th:if="${customer.gender}">
+                    <span>Nam</span>
+                </td>
+                <td th:unless="${customer.gender}">
+                    <span>Nữ</span>
+                </td>
+                <td th:text="${customer.iDCard}"></td>
+                <td th:text="${customer.phoneNumber}"></td>
+                <td th:text="${customer.email}"></td>
+                <td th:text="${customer.address}"></td>
+                <td th:text="${customer.customerType.name}"></td>
+                <td>
+                    <button class="btn btn-light" data-bs-toggle="modal"
+                            data-bs-target="#editModal"
+                            th:attr="onclick=|update('${customer.id}','${customer.name}','${customer.dateOfBirth}','${customer.gender}','${customer.iDCard}','${customer.phoneNumber}','${customer.email}','${customer.address}','${customer.customerType.id}')|">
+                        <i class="fa-sharp fa-solid fa-pen-to-square"></i>
+                    </button>
+                </td>
+                <td>
+                    <button class="btn btn-light" data-bs-toggle="modal"
+                            data-bs-target="#deleteModal"
+                            th:attr="onclick=|deleteCustomer('${customer.id}','${customer.name}')|"><i
+                            class="fa-sharp fa-solid fa-user-slash"></i></button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <center>
+            <a id="previousButton" style="pointer-events: none" class="btn btn-light">Previous</a>
+            <span class="btn btn-light" th:text="${list.number+1}"></span>
+            <a class="btn btn-light" style="pointer-events: none" id="nextButton">Next</a>
+            <input type="hidden" id="previous" th:value="${list.hasPrevious()}">
+            <input type="hidden" id="next" th:value="${list.hasNext()}">
+            <input type="hidden" id="pre" th:value="${list.number-1}">
+            <input type="hidden" id="nex" th:value="${list.number+1}">
+        </center>
+    </div>
 
-<div th:replace="~{layout :: footer}"></div>
+    <div th:replace="~{layout :: footer}"></div>
+</div>
+
+<input type="hidden" id="nameFind" th:value="${nameFind}">
+<input type="hidden" id="isEmpty" th:value="${isEmpty}">
+<input type="hidden" id="addressFind" th:value="${addressFind}">
+<input type="hidden" id="typeFind" th:value="${typeFind}">
 <div class="modal" tabindex="-1" id="addmodal">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
@@ -105,7 +126,7 @@
                     <div class="mb-3 row">
                         <label class="col-sm-2 col-form-label">Giới Tính</label>
                         <div class="col-sm-10">
-                            <input type="radio" th:field="*{gender}" name="gender" class="form-check-input"
+                            <input type="radio" th:checked th:field="*{gender}" name="gender" class="form-check-input"
                                    value="true"> Nam
                             <input type="radio" th:field="*{gender}" style="margin-left: 25px" name="gender"
                                    class="form-check-input" value="false"> Nữ
@@ -174,15 +195,18 @@
                     <div class="mb-3 row">
                         <label class="col-sm-2 col-form-label">Ngày Sinh</label>
                         <div class="col-sm-10">
-                            <input type="date" id="dateOfBirthEdit" th:field="*{dateOfBirth}" class="form-control" name="birthday">
+                            <input type="date" id="dateOfBirthEdit" th:field="*{dateOfBirth}" class="form-control"
+                                   name="birthday">
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <label class="col-sm-2 col-form-label">Giới Tính</label>
                         <div class="col-sm-10">
-                            <input type="radio" id="genderS1" checked th:field="*{gender}" name="gender" class="form-check-input"
+                            <input type="radio" id="genderS1" checked th:field="*{gender}" name="gender"
+                                   class="form-check-input"
                                    value="true"> Nam
-                            <input type="radio" id="genderS2" th:field="*{gender}" style="margin-left: 25px" name="gender"
+                            <input type="radio" id="genderS2" th:field="*{gender}" style="margin-left: 25px"
+                                   name="gender"
                                    class="form-check-input" value="false"> Nữ
 
                         </div>
@@ -190,13 +214,15 @@
                     <div class="mb-3 row">
                         <label class="col-sm-2 col-form-label">Số CMND</label>
                         <div class="col-sm-10">
-                            <input type="number" id="iDCardEdit" th:field="*{iDCard}" class="form-control" name="iDCard">
+                            <input type="number" id="iDCardEdit" th:field="*{iDCard}" class="form-control"
+                                   name="iDCard">
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <label class="col-sm-2 col-form-label">Số Điện Thoại </label>
                         <div class="col-sm-10">
-                            <input th:field="*{phoneNumber}" id="phoneNumberEdit" type="number" class="form-control" name="phoneNumber">
+                            <input th:field="*{phoneNumber}" id="phoneNumberEdit" type="number" class="form-control"
+                                   name="phoneNumber">
                         </div>
                     </div>
                     <div class="mb-3 row">
@@ -208,7 +234,8 @@
                     <div class="mb-3 row">
                         <label class="col-sm-2 col-form-label">Địa Chỉ </label>
                         <div class="col-sm-10">
-                            <input type="text" id="addressEdit" th:field="*{address}" class="form-control" name="address">
+                            <input type="text" id="addressEdit" th:field="*{address}" class="form-control"
+                                   name="address">
                         </div>
                     </div>
                     <div class="mb-3 row">
@@ -244,7 +271,7 @@
                 </div>
                 <input type="hidden" name="id" id="idDelete">
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><Hủ></Hủ>y</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
                     <button type="submit" class="btn btn-primary">Xóa</button>
                 </div>
             </form>
@@ -252,49 +279,64 @@
         </div>
     </div>
 </div>
+
 </body>
 <script>
-    function update(id,name,date,gender,cmnd,phoneNumber,email,address,typeId){
-       document.getElementById("idEdit").value = id;
-       document.getElementById("nameEdit").value = name;
-       document.getElementById("dateOfBirthEdit").value = date;
-       if (gender == "true") {
-           document.getElementById("genderS1").checked = true;
-           document.getElementById("genderS2").checked = false;
-       } else {
-           document.getElementById("genderS1").checked = false;
-           document.getElementById("genderS2").checked = true;
-       }
-       document.getElementById("iDCardEdit").value = cmnd;
-       document.getElementById("phoneNumberEdit").value = phoneNumber;
-       document.getElementById("emailEdit").value = email;
-       document.getElementById("addressEdit").value = address;
-       document.getElementById("typeEdit").value = typeId;
+    let isEmpty = document.getElementById("isEmpty").value;
+    if (isEmpty == "true") {
+        document.getElementById("checkTable").style.display = "none";
+        document.getElementById('resultFind').style.display = "block";
+    } else {
+        document.getElementById("checkTable").style.display = "block";
+        document.getElementById('resultFind').style.display = "none";
     }
-    function deleteCustomer(id,name) {
+
+    function update(id, name, date, gender, cmnd, phoneNumber, email, address, typeId) {
+        document.getElementById("idEdit").value = id;
+        document.getElementById("nameEdit").value = name;
+        document.getElementById("dateOfBirthEdit").value = date;
+        if (gender == "true") {
+            document.getElementById("genderS1").checked = true;
+            document.getElementById("genderS2").checked = false;
+        } else {
+            document.getElementById("genderS1").checked = false;
+            document.getElementById("genderS2").checked = true;
+        }
+        document.getElementById("iDCardEdit").value = cmnd;
+        document.getElementById("phoneNumberEdit").value = phoneNumber;
+        document.getElementById("emailEdit").value = email;
+        document.getElementById("addressEdit").value = address;
+        document.getElementById("typeEdit").value = typeId;
+    }
+
+    function deleteCustomer(id, name) {
         document.getElementById("nameDelete").innerText = name;
         document.getElementById("idDelete").value = id;
     }
+
     let checkPre = document.getElementById("previous").value;
+    let name = document.getElementById("nameFind").value;
+    let address = document.getElementById("addressFind").value;
+    let type = document.getElementById("typeFind").value;
     if (checkPre == "true") {
         let pre = document.getElementById("pre").value;
-        let pagePrelink = '/customer?page='+pre;
-        document.getElementById("previousButton").href = pagePrelink ;
+        let pagePrelink = '/customer/find?page=' + pre + '&name=' + name + '&email=' + address + '&type=' + type;
+        document.getElementById("previousButton").href = pagePrelink;
         document.getElementById("previousButton").style.pointerEvents = "auto";
     } else {
         document.getElementById("previousButton").style.pointerEvents = "none";
-        document.getElementById("previousButton").className = "btn btn-outline-success";
+        document.getElementById("previousButton").className = "btn btn-outline-light";
     }
     let checkNex = document.getElementById("next").value;
 
     if (checkNex == "true") {
         let next = document.getElementById("nex").value;
-        let pageNextLink = '/customer?page='+next;
-        document.getElementById('nextButton').href =pageNextLink;
+        let pageNextLink = '/customer/find?page=' + next + '&name=' + name + '&email=' + address + '&type=' + type;
+        document.getElementById('nextButton').href = pageNextLink;
         document.getElementById("nextButton").style.pointerEvents = "auto";
     } else {
         document.getElementById("nextButton").style.pointerEvents = "none";
-        document.getElementById("nextButton").className = "btn btn-outline-success";
+        document.getElementById("nextButton").className = "btn btn-outline-light";
     }
 
 </script>

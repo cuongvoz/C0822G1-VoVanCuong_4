@@ -4,6 +4,7 @@ import com.codegym.model.customer.Customer;
 import com.codegym.service.customer.ICustomerService;
 import com.codegym.service.customer.ICustomerTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
@@ -17,10 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class CustomerController {
 
     @Autowired
-    ICustomerService service;
+   private ICustomerService service;
 
     @Autowired
-    ICustomerTypeService iCustomerTypeService;
+   private ICustomerTypeService iCustomerTypeService;
 
     @RequestMapping
     public String showList(Model model, @PageableDefault(value =  5)Pageable pageable) {
@@ -37,14 +38,23 @@ public class CustomerController {
     }
     @PostMapping("/delete")
     public String deleteCustomer(int id) {
-        service.delete(service.findById(id));
+        service.delete(id);
         return "redirect:/customer";
     }
     @GetMapping("/find")
-    public String findByThree(String name,String address,String type,@PageableDefault(value =  5)Pageable pageable,Model model) {
+    public String findByThree(String name,String email,String type,@PageableDefault(value =  5)Pageable pageable,Model model) {
         model.addAttribute("customer",new Customer());
-        model.addAttribute("list",this.service.findByAll(name,address,type,pageable));
+        Page<Customer> list =this.service.findByAll(name,email,type,pageable);
+        if (list.isEmpty()){
+            model.addAttribute("isEmpty",true);
+        } else {
+            model.addAttribute("isEmpty",false);
+        }
+        model.addAttribute("list",list);
         model.addAttribute("listType",this.iCustomerTypeService.findAll());
+        model.addAttribute("nameFind",name);
+        model.addAttribute("emailFind",email);
+        model.addAttribute("typeFind",type);
         return "view/customer/list";
     }
 }
