@@ -46,7 +46,7 @@ public class BookController {
         int code = (int) (Math.random() * (99999 - 10000) + 10000);
         Book book = bookService.findById(id);
         if (book.getQuantity() == 0) {
-            return "/errorPage";
+            throw new NullPointerException("Đờ mờ công");
         }
         book.setQuantity(book.getQuantity() -1);
         PayBook payBook = new PayBook(code,book);

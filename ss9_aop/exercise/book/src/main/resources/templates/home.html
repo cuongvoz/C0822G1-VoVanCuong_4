@@ -36,6 +36,25 @@
     </tbody>
 </table>
 <input type="hidden" id="check" th:value="${check}">
+<div class="modal" tabindex="-1" id="result">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Mượn Sách</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+                <div class="modal-body">
+                    <div>
+                        <div style="color: red" th:if="${code} != null" th:text="'Đây là mã trả sách ' + ${code}"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Xong</button>
+                </div>
+        </div>
+    </div>
+</div>
 <div class="modal" tabindex="-1" id="borrow">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -48,7 +67,6 @@
                      <div>
                          Đầu Sách : <span id="nameBook"></span> <br>
                          Nội Dung : <span id="contentBook"></span>
-                         <div style="color: red" th:if="${code} != null" th:text="'Đây là mã trả sách ' + ${code}"></div>
                      </div>
                 </div>
                 <input type="hidden" name="id" id="idBook">
@@ -67,7 +85,7 @@
     if (check == "true") {
         $(document).ready(
             function () {
-                $('#borrow').appendTo('body').modal('show');
+                $('#result').appendTo('body').modal('show');
             }
         )
     }
