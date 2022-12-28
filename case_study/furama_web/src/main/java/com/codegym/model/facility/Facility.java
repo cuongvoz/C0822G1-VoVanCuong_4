@@ -9,12 +9,12 @@ public class Facility {
     private int id;
     private String name;
     private int area;
-    private double cost;
+    private Double cost;
     private int maxPeople;
     private String standardRoom;
     private String descriptionOtherConvenience;
     private double poolArea;
-    private int numberOfFloor;
+    private Integer numberOfFloor;
     private String facilityFree;
     @ManyToOne
     private RentType rentType;
@@ -45,11 +45,11 @@ public class Facility {
         this.area = area;
     }
 
-    public double getCost() {
+    public Double getCost() {
         return cost;
     }
 
-    public void setCost(double cost) {
+    public void setCost(Double cost) {
         this.cost = cost;
     }
 
@@ -85,11 +85,11 @@ public class Facility {
         this.poolArea = poolArea;
     }
 
-    public int getNumberOfFloor() {
+    public Integer getNumberOfFloor() {
         return numberOfFloor;
     }
 
-    public void setNumberOfFloor(int numberOfFloor) {
+    public void setNumberOfFloor(Integer numberOfFloor) {
         this.numberOfFloor = numberOfFloor;
     }
 
