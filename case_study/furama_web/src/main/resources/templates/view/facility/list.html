@@ -71,13 +71,13 @@
                 <td>
                     <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#editmodal"
                             th:attr="onclick=|updateFacility('${facility.id}','${facility.name}','${facility.area}','${facility.cost}','${facility.maxPeople}','${facility.rentType.id}','${facility.facilityType.id}','${facility.standardRoom}','${facility.descriptionOtherConvenience}','${facility.poolArea}','${facility.numberOfFloor}','${facility.facilityFree}')|">
-                        <i class="fa-sharp fa-solid fa-pen-to-square"></i>
+                        <i class="fa-sharp fa-solid fa-hammer"></i>
                     </button>
                 </td>
                 <td>
                     <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#deletemodal"
                             th:attr="onclick=|deleteModal('${facility.id}','${facility.name}')|">
-                        <i class="fa-sharp fa-solid fa-user-slash"></i>
+                        <i class="fa-sharp fa-solid fa-store-slash"></i>
                     </button>
                 </td>
             </tr>
