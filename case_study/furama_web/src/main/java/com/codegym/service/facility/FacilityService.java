@@ -32,4 +32,9 @@ public class FacilityService implements IFacilityService{
     public Page<Facility> search(String name, String type, Pageable pageable) {
         return iFacilityRepository.search(name,type,pageable);
     }
+
+    @Override
+    public List<Facility> findTo() {
+        return iFacilityRepository.findTo();
+    }
 }

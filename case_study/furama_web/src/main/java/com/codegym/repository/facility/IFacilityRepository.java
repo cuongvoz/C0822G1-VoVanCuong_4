@@ -10,6 +10,12 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface IFacilityRepository extends JpaRepository<Facility,Integer> {
-    @Query(value = "select f.* from `facility` f join `facility_type` ft on f.facility_type_id = ft.id where f.name like %:name% and ft.name like %:namez%",nativeQuery = true)
+    @Query(value = "select f.* from `facility` f join `facility_type` ft on f.facility_type_id = ft.id where f.name like %:name% and ft.name like %:namez% order by f.id",nativeQuery = true)
     Page<Facility> search(@Param("name") String name, @Param("namez") String type, Pageable pageable);
+
+    @Query(value = "select * from facility order by id",nativeQuery = true)
+    Page<Facility> findAll(Pageable pageable);
+
+    @Query(value = "select * from facility order by id",nativeQuery = true)
+    List<Facility> findTo();
 }
