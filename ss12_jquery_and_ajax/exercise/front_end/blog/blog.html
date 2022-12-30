@@ -21,7 +21,7 @@
     </thead>
     <tbody id="my-body"></tbody>
 </table>
-<button id="yes" type="button">More</button>
+<button id="yes" onclick="addRow()" type="button">More</button>
 </body>
 <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
         crossorigin="anonymous"></script>
@@ -30,46 +30,14 @@
         crossorigin="anonymous"></script>
 <script>
 
+    $(document).ready(
+        function () {
+            addRow();
+        }
+    )
     let arr = [];
-
-    init();
-    let x = 0;
-
-    $("#yes").click(function () {
-        x++;
-        $.ajax({
-            type: "GET",
-            //tên API
-            url: "http://localhost:8080/blog/list?page=" + x,
-            //xử lý khi thành công
-            success: function (data) {
-
-                let table = '';// lưu trữ table
-                for (let i = 0; i < data.content.length; i++) {
-                    arr.concat(data.content)
-                    table +=
-                        `
-                        <tr>
-                            <th scope="row">${i + 1}</th>
-                            <td>${arr[i].title}</td>
-                            <td>${arr[i].writer}</td>
-                            <td>${arr[i].content}</td>
-                            <td>${arr[i].category.name}</td>
-                            <td>${arr[i].date}</td>
-                        </tr>
-                        `
-                }
-                $('#my-body').html(table)
-            }
-        });
-        event.preventDefault();
-
-    });
-
-
     function search() {
         let title = $('#title').val();
-
         if (title == "") {
             init();
         }
@@ -97,6 +65,21 @@
         $('#title').val("")
     }
 
+    let x = 0;
+    function addRow() {
+        x++;
+        $.ajax({
+            type: "GET",
+            url: "http://localhost:8080/blog/list?page=" + x,
+            success: function (data) {
+                for (let i = 0; i < data.content.length; i++) {
+                    arr.push(data.content[i])
+                }
+            }
+        })
+        x++;
+        init()
+    }
     function init() {
         $.ajax({
             type: "GET",
@@ -106,8 +89,7 @@
             success: function (data) {
                 //data => đang ở dạng json
                 let table = '';// lưu trữ table
-                for (let i = 0; i < data.content.length; i++) {
-                    arr.push(data.content[i])
+                for (let i = 0; i < arr.length; i++) {
                     table +=
                         `
                         <tr>
@@ -123,9 +105,6 @@
                 $('#my-body').html(table)
             }
         });
-
     }
-
-
 </script>
 </html>

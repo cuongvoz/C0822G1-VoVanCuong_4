@@ -25,21 +25,18 @@ public class BlogRestController {
     @Autowired
     private ICategoryService iCategoryService;
 
-//    @GetMapping
-//    public ResponseEntity<List<Category>> getList() {
-//        List<Category> list = iCategoryService.findAll();
-//        if (list.isEmpty()) {
-//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//        }
-//        return new ResponseEntity<>(list,HttpStatus.OK);
-//    }
+    @GetMapping
+    public ResponseEntity<List<Category>> getList() {
+        List<Category> list = iCategoryService.findAll();
+        if (list.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(list,HttpStatus.OK);
+    }
 
     @GetMapping("/list")
-    public ResponseEntity<Page<Blog>> getBlogList(@PageableDefault(value = 4) Pageable pageable) {
+    public ResponseEntity<Page<Blog>> getBlogList(@PageableDefault(value = 2) Pageable pageable) {
         Page<Blog> list = iBlogService.findALL(pageable);
-//        if (list.isEmpty()) {
-//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//        }
         return new ResponseEntity<>(list,HttpStatus.OK);
     }
     @GetMapping("/{id}")
