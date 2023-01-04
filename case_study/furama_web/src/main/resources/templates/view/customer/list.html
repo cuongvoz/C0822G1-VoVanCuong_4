@@ -111,17 +111,21 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+
                 <form th:action="@{/customer/add}" method="post" th:object="${customer}">
                     <div class="mb-3 row">
                         <label class="col-sm-2 col-form-label">Tên Khách Hàng: </label>
                         <div class="col-sm-10">
                             <input type="text" th:field="*{name}" class="form-control" name="name">
+                            <p th:errors="*{name}" class="text-danger"></p>
                         </div>
                     </div>
+                    <input type="hidden" name="validate" value="add">
                     <div class="mb-3 row">
                         <label class="col-sm-2 col-form-label">Ngày Sinh</label>
                         <div class="col-sm-10">
                             <input type="date" th:field="*{dateOfBirth}" class="form-control" name="birthday">
+                            <p th:errors="*{dateOfBirth}" class="text-danger"></p>
                         </div>
                     </div>
                     <div class="mb-3 row">
@@ -138,18 +142,21 @@
                         <label class="col-sm-2 col-form-label">Số CMND</label>
                         <div class="col-sm-10">
                             <input type="number" th:field="*{iDCard}" class="form-control" name="iDCard">
+                            <p th:errors="*{iDCard}" class="text-danger"></p>
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <label class="col-sm-2 col-form-label">Số Điện Thoại </label>
                         <div class="col-sm-10">
                             <input th:field="*{phoneNumber}" type="number" class="form-control" name="phoneNumber">
+                            <p th:errors="*{phoneNumber}" class="text-danger"></p>
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <label class="col-sm-2 col-form-label">Email </label>
                         <div class="col-sm-10">
                             <input type="email" th:field="*{email}" class="form-control" name="email">
+                            <p th:errors="*{email}" class="text-danger"></p>
                         </div>
                     </div>
                     <div class="mb-3 row">
@@ -191,13 +198,17 @@
                         <div class="col-sm-10">
                             <input type="hidden" id="idEdit" th:field="*{id}">
                             <input type="text" id="nameEdit" th:field="*{name}" class="form-control" name="name">
+                            <p th:errors="*{name}" class="text-danger"></p>
                         </div>
                     </div>
+                    <input type="hidden" name="validate" value="edit">
+                    <input type="hidden" name="modal" value="edit">
                     <div class="mb-3 row">
                         <label class="col-sm-2 col-form-label">Ngày Sinh</label>
                         <div class="col-sm-10">
                             <input type="date" id="dateOfBirthEdit" th:field="*{dateOfBirth}" class="form-control"
                                    name="birthday">
+                            <p th:errors="*{dateOfBirth}" class="text-danger"></p>
                         </div>
                     </div>
                     <div class="mb-3 row">
@@ -217,6 +228,7 @@
                         <div class="col-sm-10">
                             <input type="number" id="iDCardEdit" th:field="*{iDCard}" class="form-control"
                                    name="iDCard">
+                            <p th:errors="*{iDCard}" class="text-danger"></p>
                         </div>
                     </div>
                     <div class="mb-3 row">
@@ -224,6 +236,7 @@
                         <div class="col-sm-10">
                             <input th:field="*{phoneNumber}" id="phoneNumberEdit" type="number" class="form-control"
                                    name="phoneNumber">
+                            <p th:errors="*{phoneNumber}" class="text-danger"></p>
                         </div>
                     </div>
                     <div class="mb-3 row">
@@ -231,12 +244,14 @@
                         <div class="col-sm-10">
                             <input type="email" id="emailEdit" th:field="*{email}" class="form-control" name="email">
                         </div>
+                        <p th:errors="*{email}" class="text-danger"></p>
                     </div>
                     <div class="mb-3 row">
                         <label class="col-sm-2 col-form-label">Địa Chỉ </label>
                         <div class="col-sm-10">
                             <input type="text" id="addressEdit" th:field="*{address}" class="form-control"
                                    name="address">
+                            <p th:errors="*{address}" class="text-danger"></p>
                         </div>
                     </div>
                     <div class="mb-3 row">
@@ -253,6 +268,22 @@
                         <button type="submit" class="btn btn-primary">Xác Nhận</button>
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" tabindex="-1" id="success">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="contentSuccess">Thêm Mới Thành Công</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h2 id="successText"></h2>
+            </div>
+            <div class="modal-footer">
+                <button data-bs-dismiss="modal" aria-label="Close" class="btn btn-outline-primary">Đồng Ý</button>
             </div>
         </div>
     </div>
@@ -280,9 +311,51 @@
         </div>
     </div>
 </div>
+<input type="hidden" id="validate" th:value="${validate}">
+<input type="hidden" id="addCheck" th:value="${addSuccess}">
+<input type="hidden" id="successCrud" th:value="${successCrud}">
 
 </body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script>
+
+
+    let addCheck = $('#addCheck').val();
+    if (addCheck != null && addCheck != "") {
+        $(document).ready(
+            function () {
+                $('#success').appendTo('body').modal('show')
+            }
+        )
+    }
+    let modalSuccess = $('#successCrud').val();
+    switch (modalSuccess) {
+        case "add":
+            document.getElementById("successText").innerHTML = "Đã thêm mới khách hàng <b>" + addCheck + "</b> thành công";
+            document.getElementById("contentSuccess").innerHTML = "Thêm Mới Khách Hàng Thành Công";
+            break;
+        case "edit":
+            document.getElementById("successText").innerHTML = "Sửa thông tin khách hàng <b>" + addCheck + "</b> thành công";
+            document.getElementById("contentSuccess").innerHTML = "Thay Đổi Thông Tin Thành Công";
+            break;
+    }
+    let validate = $('#validate').val();
+    switch (validate) {
+        case "add":
+            $(document).ready(
+                function () {
+                    $('#addmodal').appendTo('body').modal('show')
+                }
+            )
+            break
+        case "edit":
+            $(document).ready(
+                function () {
+                    $('#editModal').appendTo('body').modal('show')
+                }
+            )
+            break
+    }
     let isEmpty = document.getElementById("isEmpty").value;
     if (isEmpty == "true") {
         document.getElementById("checkTable").style.display = "none";
@@ -339,6 +412,5 @@
         document.getElementById("nextButton").style.pointerEvents = "none";
         document.getElementById("nextButton").className = "btn btn-outline-light";
     }
-
 </script>
 </html>

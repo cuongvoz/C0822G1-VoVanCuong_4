@@ -16,6 +16,6 @@ public interface ICustomerRepository extends JpaRepository<Customer,Integer> {
    @Query(value = "select * from `customer` c where c.is_delete = false order by c.id",nativeQuery = true)
     Page<Customer> findAll(Pageable pageable);
 
-   @Query(value = "select * from customer order by id",nativeQuery = true)
-   List<Customer> findTo();
+   @Query(value = "select * from `customer` c where c.is_delete = false order by c.id",nativeQuery = true)
+   List<Customer> findAllNew();
 }

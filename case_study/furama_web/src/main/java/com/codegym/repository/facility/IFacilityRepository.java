@@ -17,5 +17,5 @@ public interface IFacilityRepository extends JpaRepository<Facility,Integer> {
     Page<Facility> findAll(Pageable pageable);
 
     @Query(value = "select * from facility order by id",nativeQuery = true)
-    List<Facility> findTo();
+    List<Facility> newFindAll();
 }

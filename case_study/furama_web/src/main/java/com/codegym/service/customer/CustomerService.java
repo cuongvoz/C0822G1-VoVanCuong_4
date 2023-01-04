@@ -43,7 +43,7 @@ public class CustomerService implements ICustomerService{
     }
 
     @Override
-    public List<Customer> findTo() {
-        return iCustomerRepository.findTo();
+    public List<Customer> findAllNew() {
+        return iCustomerRepository.findAllNew();
     }
 }

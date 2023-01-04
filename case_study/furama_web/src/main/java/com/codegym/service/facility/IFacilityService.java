@@ -11,5 +11,6 @@ public interface IFacilityService {
     void save(Facility facility);
     void deleteById(int id);
     Page<Facility> search(String name,String type,Pageable pageable);
-    List<Facility> findTo();
+    List<Facility> newFindAll();
+    Facility findById(int id);
 }

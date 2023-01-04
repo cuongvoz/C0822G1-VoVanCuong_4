@@ -12,5 +12,5 @@ public interface ICustomerService {
     Customer findById(int id);
     void delete(int id);
     Page<Customer> findByAll(String name, String email, String type, Pageable pageable);
-    List<Customer> findTo();
+    List<Customer> findAllNew();
 }

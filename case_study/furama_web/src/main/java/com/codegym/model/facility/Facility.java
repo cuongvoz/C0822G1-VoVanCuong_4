@@ -8,12 +8,12 @@ public class Facility {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-    private int area;
+    private Integer area;
     private Double cost;
-    private int maxPeople;
+    private Double maxPeople;
     private String standardRoom;
     private String descriptionOtherConvenience;
-    private double poolArea;
+    private Double poolArea;
     private Integer numberOfFloor;
     private String facilityFree;
     @ManyToOne
@@ -37,11 +37,11 @@ public class Facility {
         this.name = name;
     }
 
-    public int getArea() {
+    public Integer getArea() {
         return area;
     }
 
-    public void setArea(int area) {
+    public void setArea(Integer area) {
         this.area = area;
     }
 
@@ -53,11 +53,11 @@ public class Facility {
         this.cost = cost;
     }
 
-    public int getMaxPeople() {
+    public Double getMaxPeople() {
         return maxPeople;
     }
 
-    public void setMaxPeople(int maxPeople) {
+    public void setMaxPeople(Double maxPeople) {
         this.maxPeople = maxPeople;
     }
 
@@ -77,11 +77,11 @@ public class Facility {
         this.descriptionOtherConvenience = descriptionOtherConvenience;
     }
 
-    public double getPoolArea() {
+    public Double getPoolArea() {
         return poolArea;
     }
 
-    public void setPoolArea(double poolArea) {
+    public void setPoolArea(Double poolArea) {
         this.poolArea = poolArea;
     }
 

@@ -1,107 +1,113 @@
 package com.codegym.model.customer;
 
+import com.codegym.service.customer.CustomerService;
+import com.codegym.service.customer.ICustomerService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 @Entity
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-   private int id;
-   private String name;
-   private String dateOfBirth;
-   private boolean gender;
-   @Column(unique = true)
-   private String iDCard;
-   @Column(unique = true)
-   private String phoneNumber;
-   @Column(unique = true)
-   private String email;
-   private String address;
-   @Column(columnDefinition = "boolean default false")
-   private boolean isDelete;
+    private int id;
+    private String name;
+    private String dateOfBirth;
+    private boolean gender;
+    private String iDCard;
+    private String phoneNumber;
+    private String email;
+    private String address;
 
-   public boolean isDelete() {
-      return isDelete;
-   }
+    private boolean isDelete;
 
-   public void setDelete(boolean delete) {
-      isDelete = delete;
-   }
+    public boolean isDelete() {
+        return isDelete;
+    }
 
-   @ManyToOne
-   @JoinColumn(name = "customerType",referencedColumnName = "id")
-   private CustomerType customerType;
+    public void setDelete(boolean delete) {
+        isDelete = delete;
+    }
 
-   public int getId() {
-      return id;
-   }
+    @ManyToOne
+    @JoinColumn(name = "customerType", referencedColumnName = "id")
+    private CustomerType customerType;
 
-   public void setId(int id) {
-      this.id = id;
-   }
+    public int getId() {
+        return id;
+    }
 
-   public String getName() {
-      return name;
-   }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-   public void setName(String name) {
-      this.name = name;
-   }
+    public String getName() {
+        return name;
+    }
 
-   public String getDateOfBirth() {
-      return dateOfBirth;
-   }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-   public void setDateOfBirth(String dateOfBirth) {
-      this.dateOfBirth = dateOfBirth;
-   }
+    public String getDateOfBirth() {
+        return dateOfBirth;
+    }
 
-   public boolean isGender() {
-      return gender;
-   }
+    public void setDateOfBirth(String dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
 
-   public void setGender(boolean gender) {
-      this.gender = gender;
-   }
+    public boolean isGender() {
+        return gender;
+    }
 
-   public String getiDCard() {
-      return iDCard;
-   }
+    public void setGender(boolean gender) {
+        this.gender = gender;
+    }
 
-   public void setiDCard(String iDCard) {
-      this.iDCard = iDCard;
-   }
+    public String getiDCard() {
+        return iDCard;
+    }
 
-   public String getPhoneNumber() {
-      return phoneNumber;
-   }
+    public void setiDCard(String iDCard) {
+        this.iDCard = iDCard;
+    }
 
-   public void setPhoneNumber(String phoneNumber) {
-      this.phoneNumber = phoneNumber;
-   }
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
 
-   public String getEmail() {
-      return email;
-   }
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 
-   public void setEmail(String email) {
-      this.email = email;
-   }
+    public String getEmail() {
+        return email;
+    }
 
-   public String getAddress() {
-      return address;
-   }
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-   public void setAddress(String address) {
-      this.address = address;
-   }
+    public String getAddress() {
+        return address;
+    }
 
-   public CustomerType getCustomerType() {
-      return customerType;
-   }
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
-   public void setCustomerType(CustomerType customerType) {
-      this.customerType = customerType;
-   }
+    public CustomerType getCustomerType() {
+        return customerType;
+    }
+
+    public void setCustomerType(CustomerType customerType) {
+        this.customerType = customerType;
+    }
 }

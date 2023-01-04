@@ -18,5 +18,10 @@ public class EmployeeService implements IEmployeeService{
         return iEmployeeRepository.findAll();
     }
 
+    @Override
+    public Employee findById(int id) {
+        return iEmployeeRepository.findById(id).orElse(null);
+    }
+
 
 }
