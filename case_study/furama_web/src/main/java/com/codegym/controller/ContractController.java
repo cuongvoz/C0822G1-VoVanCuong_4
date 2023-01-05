@@ -10,6 +10,8 @@ import com.codegym.service.customer.ICustomerService;
 import com.codegym.service.employee.IEmployeeService;
 import com.codegym.service.facility.IFacilityService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,7 +39,7 @@ public class ContractController {
 
     @RequestMapping
     public String getHome(Model model) {
-      model.addAttribute("list",iContractService.findAll());
+      model.addAttribute("list",iContractService.getAllDTO3());
       model.addAttribute("listAttach",iAttachFacilityService.findAll());
       model.addAttribute("customerList",iCustomerService.findAllNew());
       model.addAttribute("employeeList",iEmployeeService.findAll());

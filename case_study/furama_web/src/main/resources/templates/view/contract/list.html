@@ -70,7 +70,7 @@
                     </div>
                     <div class="mb-3 row">
                         <label class="col-sm-2 col-form-label">Số Lượng</label>
-                        <input type="hidden"  th:field="*{contract}" id="contractIdAdd">
+                        <input type="hidden" th:field="*{contract}" id="contractIdAdd">
                         <div class="col-sm-10">
                             <input type="number" id="quantityAdd" class="form-control" th:field="*{quantity}">
                         </div>
@@ -101,6 +101,8 @@
                         <th>Đơn Giá</th>
                         <th>Xuất</th>
                         <th>Trạng Thái</th>
+                        <th>Số Lượng</th>
+                        <th>Tổng Tiền</th>
                     </tr>
                     </thead>
                     <tbody id="tableAttachFacilityNew">
@@ -143,7 +145,7 @@
                     <div class="mb-3 row">
                         <label class="col-sm-2 col-form-label">Tổng Tiền</label>
                         <div class="col-sm-10">
-                            <input type="number" class="form-control"  readonly id="tongTien">
+                            <input type="number" class="form-control" readonly id="tongTien">
                         </div>
                     </div>
                     <div class="mb-3 row">
@@ -266,121 +268,139 @@
 <script>
 
     function updateContract2() {
-       let id = $('#idEdit').val();
-       let startDate = $('#startNewDate').val();
-       let endDate = $('#endNewEdit').val();
-       let deposit = $('#depositEdit').val();
-       let facilitiy = $('#facilityEdit').val();
-       let employee = $('#employeeEdit').val();
-       let customer = $('#customerEdit').val();
-       let contract = {
-           id:id,
-           startDate:startDate,
-           endDate:endDate,
-           deposit:deposit,
-           customer:customer,
-           employee:employee,
-           facility:facilitiy
-       }
-       $.ajax({
-           headers: {
-               'Accept': 'application/json',
-               'Content-Type': 'application/json'
-           },
-           type: 'POST',
-           data: JSON.stringify(contract),
-           url:'contracts/update' ,
-           success: function () {
-               $('#editModal').modal('hide')
-               init()
-           }
+        let id = $('#idEdit').val();
+        let startDate = $('#startNewDate').val();
+        let endDate = $('#endNewEdit').val();
+        let deposit = $('#depositEdit').val();
+        let facilitiy = $('#facilityEdit').val();
+        let employee = $('#employeeEdit').val();
+        let customer = $('#customerEdit').val();
+        let contract = {
+            id: id,
+            startDate: startDate,
+            endDate: endDate,
+            deposit: deposit,
+            customer: customer,
+            employee: employee,
+            facility: facilitiy
+        }
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            type: 'POST',
+            data: JSON.stringify(contract),
+            url: 'contracts/update',
+            success: function () {
+                $('#editModal').modal('hide')
+                init()
 
-       })
+            }
+
+        })
     }
-      init()
+
+    init()
+
     function init() {
         $.ajax({
-        type: 'GET',
-         url: '/contracts',
-         success: function (data) {
-            let table = ''
-             for (let i = 0; i < data.length; i++) {
-             table +=    `
+            type: 'GET',
+            url: '/contracts',
+            success: function (data) {
+                let table = ''
+                for (let i = 0; i < data.length; i++) {
+                    table += `
                  <tr>
-                 <th>${i+1}</th>
+                 <th>${i + 1}</th>
                  <th>${data[i].facility.name}</th>
                  <th>${data[i].employee.name}</th>
                  <th>${data[i].customer.name}</th>
                  <th>${data[i].startDate}</th>
                  <th>${data[i].endDate}</th>
                  <th>${data[i].deposit}</th>
-                 <th>2000000</th>
+                 <th>${data[i].total}</th>
                  <th>
-                 <button class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#editModal" onclick="updateContract(${data[i].id}, '${data[i].startDate}', '${data[i].endDate}', ${data[i].deposit}, ${data[i].employee.id}, ${data[i].customer.id}, ${data[i].facility.id})">+</button>
+                 <button class="btn btn-outline-light"  data-bs-toggle="modal" data-bs-target="#editModal" onclick="updateContract(${data[i].id}, '${data[i].startDate}', '${data[i].endDate}', ${data[i].deposit}, ${data[i].employee.id}, ${data[i].customer.id}, ${data[i].facility.id},${data[i].total})">+</button>
                  <button class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#viewAttachFacility" onclick="showListAttachFacility(${data[i].id})">Danh Sách Dịch Vụ Đi Kèm</button>
                  </th>
-                 </tr>
+
                  `
-             }
-             $('#my-body').html(table)
-         }
+                }
+                $('#my-body').html(table)
+            }
         })
     }
 
-    function addContractDetail(){
+    function addContractDetail() {
+        // id, startDate, endDate, deposit, employee, customer, facility,total
+
+
         let contractId = $('#contractIdAdd').val();
         let quantity = $('#quantityAdd').val();
         let attachId = $('#attachFacilityAdd').val();
-       let contractDetail = {
-           contractId: contractId,
-           quantity: quantity,
-           attachId: attachId
-       }
-       $.ajax({
-           headers: {
-               'Accect':'application/json',
-               'Content-Type': 'application/json'
-           },
-           type: 'POST',
-           data: JSON.stringify(contractDetail),
-           url: '/contracts/createDetail',
-           success: function () {
-               $('#addDetail').modal('hide')
-               init()
-           }
+        let contractDetail = {
+            contractId: contractId,
+            quantity: quantity,
+            attachId: attachId
+        }
+        $.ajax({
+            headers: {
+                'Accect': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            type: 'POST',
+            data: JSON.stringify(contractDetail),
+            url: '/contracts/createDetail',
+            success: function () {
+                $('#addDetail').modal('hide')
+                init()
+                $(document).ready(
+                    function () {
+                        $('#editModal').appendTo('body').modal('show')
+                    }
+                )
 
-       })
+
+
+            }
+
+        })
 
     }
 
-    function addContract(){
-      let start = $('#addStartDate').val();
-      let end = $('#addEndDate').val();
-      let deposit = $('#addDeposit').val();
-      let customer = $('#addCutomer').val();
-      let employee = $('#addEmployee').val();
-      let facility = $('#addFacility').val();
-      let contract = {
-          startDate: start,
-          endDate: end,
-          deposit: deposit,
-          employee: employee,
-          customer: customer,
-          facility: facility
-      };
-      $.ajax({
-          headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json'
-          },
-          type: 'POST',
-          data: JSON.stringify(contract),
-          url: "/contracts/create",
-          success: function () {
-              $('#addmodal').modal('hide')
-             init()
-          }
-      })
+    function changeMoney(money) {
+        document.getElementById("tongTienEdit").value = money;
+    }
+
+    function addContract() {
+        let start = $('#addStartDate').val();
+        let end = $('#addEndDate').val();
+        let deposit = $('#addDeposit').val();
+        let customer = $('#addCutomer').val();
+        let employee = $('#addEmployee').val();
+        let facility = $('#addFacility').val();
+        let contract = {
+            startDate: start,
+            endDate: end,
+            deposit: deposit,
+            employee: employee,
+            customer: customer,
+            facility: facility
+        };
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            type: 'POST',
+            data: JSON.stringify(contract),
+            url: "/contracts/create",
+            success: function () {
+                $('#addmodal').modal('hide')
+                init()
+            }
+        })
 
     }
 
@@ -390,7 +410,9 @@
             url: "/contracts/view/" + id,
             success: function (data) {
                 let table = ''
+                let x = 0;
                 for (let i = 0; i < data.length; i++) {
+                    x += data[i].total;
                     table += `
                     <tr>
                          <th>${i + 1}</th>
@@ -398,15 +420,25 @@
                         <th>${data[i].cost}</th>
                         <th>${data[i].unit}</th>
                         <th>${data[i].status}</th>
-                    </tr>
-                    `
+                        <th>${data[i].quantity}</th>
+                        <th>${data[i].total}</th>
+                    </tr>`
                 }
+                table += `</tr>
+                 <tr>
+                 <th colspan="4">Tổng Thành Tiền:</th>
+                 <th></th>
+                 <th></th>
+                 <th>${x}</th>
+                 </tr>
+                    `
+
                 $('#tableAttachFacilityNew').html(table)
             }
         })
     }
 
-    function updateContract(id, startDate, endDate, deposit, employee, customer, facility) {
+    function updateContract(id, startDate, endDate, deposit, employee, customer, facility, total) {
         document.getElementById("idEdit").value = id;
         document.getElementById("startNewDate").value = startDate;
         document.getElementById("endNewEdit").value = endDate;
@@ -414,6 +446,7 @@
         document.getElementById("employeeEdit").value = employee;
         document.getElementById("customerEdit").value = customer;
         document.getElementById("facilityEdit").value = facility;
+        document.getElementById("tongTienEdit").value = total;
     }
 
     function addAttach() {

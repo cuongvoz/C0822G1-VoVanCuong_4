@@ -1,4 +1,4 @@
-package com.codegym.model.customer;
+package com.codegym.model.contract;
 
 public class ContractDTO {
     private int id;

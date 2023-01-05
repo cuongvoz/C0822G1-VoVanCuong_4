@@ -84,25 +84,17 @@
             </tr>
             </tbody>
         </table>
-
         <center>
-            <a id="previousButton" style="pointer-events: none" class="btn btn-light">Previous</a>
-            <span class="btn btn-light" th:text="${list.number+1}"></span>
-            <a class="btn btn-light" style="pointer-events: none" id="nextButton">Next</a>
-            <input type="hidden" id="previous" th:value="${list.hasPrevious()}">
-            <input type="hidden" id="next" th:value="${list.hasNext()}">
-            <input type="hidden" id="pre" th:value="${list.number-1}">
-            <input type="hidden" id="nex" th:value="${list.number+1}">
+            <a class="btn btn-light" id="pre">Previous</a>
+            <button id="pagez" class="btn btn-outline-light">1</button>
+            <a class="btn btn-light" id="nex">Next</a>
         </center>
     </div>
 
     <div th:replace="~{layout :: footer}"></div>
 </div>
 
-<input type="hidden" id="nameFind" th:value="${nameFind}">
-<input type="hidden" id="isEmpty" th:value="${isEmpty}">
-<input type="hidden" id="addressFind" th:value="${addressFind}">
-<input type="hidden" id="typeFind" th:value="${typeFind}">
+
 <div class="modal" tabindex="-1" id="addmodal">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
@@ -116,7 +108,7 @@
                     <div class="mb-3 row">
                         <label class="col-sm-2 col-form-label">Tên Khách Hàng: </label>
                         <div class="col-sm-10">
-                            <input type="text" th:field="*{name}" class="form-control" name="name">
+                            <input type="text" id="nameAdd" th:field="*{name}" class="form-control" name="name">
                             <p th:errors="*{name}" class="text-danger"></p>
                         </div>
                     </div>
@@ -124,16 +116,16 @@
                     <div class="mb-3 row">
                         <label class="col-sm-2 col-form-label">Ngày Sinh</label>
                         <div class="col-sm-10">
-                            <input type="date" th:field="*{dateOfBirth}" class="form-control" name="birthday">
+                            <input type="date" id="dateOfBirthAdd" th:field="*{dateOfBirth}" class="form-control" name="birthday">
                             <p th:errors="*{dateOfBirth}" class="text-danger"></p>
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <label class="col-sm-2 col-form-label">Giới Tính</label>
-                        <div class="col-sm-10">
-                            <input type="radio" th:checked th:field="*{gender}" name="gender" class="form-check-input"
+                        <div class="col-sm-10" id="genderCheck">
+                            <input type="radio"   th:field="*{gender}" name="gender1" class="form-check-input"
                                    value="true"> Nam
-                            <input type="radio" th:field="*{gender}" style="margin-left: 25px" name="gender"
+                            <input type="radio"   th:field="*{gender}" style="margin-left: 25px" name="gender1"
                                    class="form-check-input" value="false"> Nữ
 
                         </div>
@@ -141,35 +133,35 @@
                     <div class="mb-3 row">
                         <label class="col-sm-2 col-form-label">Số CMND</label>
                         <div class="col-sm-10">
-                            <input type="number" th:field="*{iDCard}" class="form-control" name="iDCard">
+                            <input type="number" id="iDCardAdd" th:field="*{iDCard}" class="form-control" name="iDCard">
                             <p th:errors="*{iDCard}" class="text-danger"></p>
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <label class="col-sm-2 col-form-label">Số Điện Thoại </label>
                         <div class="col-sm-10">
-                            <input th:field="*{phoneNumber}" type="number" class="form-control" name="phoneNumber">
+                            <input th:field="*{phoneNumber}" id="phoneNumberAdd" type="number" class="form-control" name="phoneNumber">
                             <p th:errors="*{phoneNumber}" class="text-danger"></p>
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <label class="col-sm-2 col-form-label">Email </label>
                         <div class="col-sm-10">
-                            <input type="email" th:field="*{email}" class="form-control" name="email">
+                            <input type="email" th:field="*{email}" id="emailAdd" class="form-control" name="email">
                             <p th:errors="*{email}" class="text-danger"></p>
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <label class="col-sm-2 col-form-label">Địa Chỉ </label>
                         <div class="col-sm-10">
-                            <input type="text" th:field="*{address}" class="form-control" name="address">
+                            <input type="text" id="addressAdd" th:field="*{address}" class="form-control" name="address">
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <label class="col-sm-2 col-form-label">Kiểu Khách</label>
                         <div class="col-sm-10">
 
-                            <select th:field="*{customerType}" class="form-select" name="customerType">
+                            <select th:field="*{customerType}" id="customerTypeAdd" class="form-select" name="customerType">
                                 <option th:each="type : ${listType}" th:value="${type.id}"
                                         th:text="${type.name}"></option>
                             </select>
@@ -184,6 +176,7 @@
         </div>
     </div>
 </div>
+
 <div class="modal" tabindex="-1" id="editModal">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
@@ -314,10 +307,47 @@
 <input type="hidden" id="validate" th:value="${validate}">
 <input type="hidden" id="addCheck" th:value="${addSuccess}">
 <input type="hidden" id="successCrud" th:value="${successCrud}">
+<input type="hidden" id="nameFind" th:value="${nameFind}">
+<input type="hidden" id="isEmpty" th:value="${isEmpty}">
+<input type="hidden" id="emailFind" th:value="${emailFind}">
+<input type="hidden" id="typeFind" th:value="${typeFind}">
+<input type="hidden" id="listNumber" th:value="${list.number}">
+<input type="hidden" id="nexPage" th:value="${list.number +1}">
+<input type="hidden" id="prePage" th:value="${list.number -1}">
+<input type="hidden" id="hasNext" th:value="${list.hasNext()}">
+<input type="hidden" id="hastPrevious" th:value="${list.hasPrevious()}">
 
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script>
+    // http://localhost:8080/customer/find?name=đắc&email=&type=&page=0
+    let name = $('#nameFind').val();
+    let email = $('#emailFind').val();
+    let type = $('#typeFind').val();
+    let page = $('#listNumber').val();
+    let nexPage = $('#nexPage').val();
+    let prePage = $('#prePage').val();
+    let hasNext = $('#hasNext').val();
+    let hasPrevious = $('#hastPrevious').val();
+    if (hasNext == "true") {
+      document.getElementById("nex").className = "btn btn-light"
+      document.getElementById("nex").style.pointerEvents = "auto"
+    } else {
+        document.getElementById("nex").className = "btn btn-outline-light"
+        document.getElementById("nex").style.pointerEvents = "none"
+    }
+    if (hasPrevious == "true") {
+        document.getElementById("pre").className = "btn btn-light"
+        document.getElementById("pre").style.pointerEvents = "auto"
+    } else {
+        document.getElementById("pre").className = "btn btn-outline-light"
+        document.getElementById("pre").style.pointerEvents = "none"
+    }
+    let nextLink = "/customer/find?name="+name+"&email="+email+"&type="+type+"&page="+nexPage
+    let preLink = "/customer/find?name="+name+"&email="+email+"&type="+type+"&page="+prePage
+    $("#nex").attr("href", nextLink);
+    $("#pre").attr("href", preLink);
+
 
 
     let addCheck = $('#addCheck').val();
@@ -383,34 +413,12 @@
         document.getElementById("typeEdit").value = typeId;
     }
 
+
+
     function deleteCustomer(id, name) {
         document.getElementById("nameDelete").innerText = name;
         document.getElementById("idDelete").value = id;
     }
 
-    let checkPre = document.getElementById("previous").value;
-    let name = document.getElementById("nameFind").value;
-    let address = document.getElementById("addressFind").value;
-    let type = document.getElementById("typeFind").value;
-    if (checkPre == "true") {
-        let pre = document.getElementById("pre").value;
-        let pagePrelink = '/customer/find?page=' + pre + '&name=' + name + '&email=' + address + '&type=' + type;
-        document.getElementById("previousButton").href = pagePrelink;
-        document.getElementById("previousButton").style.pointerEvents = "auto";
-    } else {
-        document.getElementById("previousButton").style.pointerEvents = "none";
-        document.getElementById("previousButton").className = "btn btn-outline-light";
-    }
-    let checkNex = document.getElementById("next").value;
-
-    if (checkNex == "true") {
-        let next = document.getElementById("nex").value;
-        let pageNextLink = '/customer/find?page=' + next + '&name=' + name + '&email=' + address + '&type=' + type;
-        document.getElementById('nextButton').href = pageNextLink;
-        document.getElementById("nextButton").style.pointerEvents = "auto";
-    } else {
-        document.getElementById("nextButton").style.pointerEvents = "none";
-        document.getElementById("nextButton").className = "btn btn-outline-light";
-    }
 </script>
 </html>

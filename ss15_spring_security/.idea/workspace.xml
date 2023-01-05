@@ -1,34 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2cff4eb2-a8b2-4601-b6d7-8d1da7a65a82" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../case_study/furama_web/src/main/java/com/codegym/controller/rest/ContractRestController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../case_study/furama_web/src/main/java/com/codegym/model/contract/ContractDetailDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../case_study/furama_web/src/main/java/com/codegym/model/customer/ContractDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../case_study/furama_web/src/main/java/com/codegym/model/customer/CustomerDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../case_study/furama_web/src/main/java/com/codegym/controller/ContractController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../case_study/furama_web/src/main/java/com/codegym/controller/ContractController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../case_study/furama_web/src/main/java/com/codegym/controller/CustomerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../case_study/furama_web/src/main/java/com/codegym/controller/CustomerController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../case_study/furama_web/src/main/java/com/codegym/controller/FacilityController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../case_study/furama_web/src/main/java/com/codegym/controller/FacilityController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../case_study/furama_web/src/main/java/com/codegym/model/contract/ContractDetail.java" beforeDir="false" afterPath="$PROJECT_DIR$/../case_study/furama_web/src/main/java/com/codegym/model/contract/ContractDetail.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../case_study/furama_web/src/main/java/com/codegym/model/customer/Customer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../case_study/furama_web/src/main/java/com/codegym/model/customer/Customer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../case_study/furama_web/src/main/java/com/codegym/model/facility/Facility.java" beforeDir="false" afterPath="$PROJECT_DIR$/../case_study/furama_web/src/main/java/com/codegym/model/facility/Facility.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../case_study/furama_web/src/main/java/com/codegym/repository/contract/IAttachFacilityRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../case_study/furama_web/src/main/java/com/codegym/repository/contract/IAttachFacilityRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../case_study/furama_web/src/main/java/com/codegym/repository/customer/ICustomerRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../case_study/furama_web/src/main/java/com/codegym/repository/customer/ICustomerRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../case_study/furama_web/src/main/java/com/codegym/repository/facility/IFacilityRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../case_study/furama_web/src/main/java/com/codegym/repository/facility/IFacilityRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../case_study/furama_web/src/main/java/com/codegym/service/contract/AttachFacilityService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../case_study/furama_web/src/main/java/com/codegym/service/contract/AttachFacilityService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../case_study/furama_web/src/main/java/com/codegym/service/contract/ContractService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../case_study/furama_web/src/main/java/com/codegym/service/contract/ContractService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../case_study/furama_web/src/main/java/com/codegym/service/contract/IAttachFacilityService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../case_study/furama_web/src/main/java/com/codegym/service/contract/IAttachFacilityService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../case_study/furama_web/src/main/java/com/codegym/service/contract/IContractService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../case_study/furama_web/src/main/java/com/codegym/service/contract/IContractService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../case_study/furama_web/src/main/java/com/codegym/service/customer/CustomerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../case_study/furama_web/src/main/java/com/codegym/service/customer/CustomerService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../case_study/furama_web/src/main/java/com/codegym/service/customer/ICustomerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../case_study/furama_web/src/main/java/com/codegym/service/customer/ICustomerService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../case_study/furama_web/src/main/java/com/codegym/service/employee/EmployeeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../case_study/furama_web/src/main/java/com/codegym/service/employee/EmployeeService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../case_study/furama_web/src/main/java/com/codegym/service/employee/IEmployeeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../case_study/furama_web/src/main/java/com/codegym/service/employee/IEmployeeService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../case_study/furama_web/src/main/java/com/codegym/service/facility/FacilityService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../case_study/furama_web/src/main/java/com/codegym/service/facility/FacilityService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../case_study/furama_web/src/main/java/com/codegym/service/facility/IFacilityService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../case_study/furama_web/src/main/java/com/codegym/service/facility/IFacilityService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../case_study/furama_web/src/main/resources/templates/view/contract/list.html" beforeDir="false" afterPath="$PROJECT_DIR$/../case_study/furama_web/src/main/resources/templates/view/contract/list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../case_study/furama_web/src/main/resources/templates/view/customer/list.html" beforeDir="false" afterPath="$PROJECT_DIR$/../case_study/furama_web/src/main/resources/templates/view/customer/list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../case_study/furama_web/src/main/resources/templates/view/facility/list.html" beforeDir="false" afterPath="$PROJECT_DIR$/../case_study/furama_web/src/main/resources/templates/view/facility/list.html" afterDir="false" />
-    </list>
+    <list default="true" id="2cff4eb2-a8b2-4601-b6d7-8d1da7a65a82" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -50,19 +23,6 @@
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
-  <component name="RunManager">
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -72,6 +32,7 @@
       <option name="presentableId" value="Default" />
       <updated>1672822093000</updated>
       <workItem from="1672822094354" duration="367000" />
+      <workItem from="1672825817817" duration="4000" />
     </task>
     <servers />
   </component>

@@ -1,10 +1,6 @@
 package com.codegym.controller.rest;
 
-import com.codegym.model.contract.AttachFacility;
-import com.codegym.model.contract.Contract;
-import com.codegym.model.contract.ContractDetail;
-import com.codegym.model.contract.ContractDetailDTO;
-import com.codegym.model.customer.ContractDTO;
+import com.codegym.model.contract.*;
 import com.codegym.model.customer.Customer;
 import com.codegym.model.employee.Employee;
 import com.codegym.model.facility.Facility;
@@ -42,14 +38,14 @@ public class ContractRestController {
 
 
     @GetMapping
-    public ResponseEntity<List<Contract>> getList(){
-        List<Contract> list = iContractService.findAll();
+    public ResponseEntity<List<ContractDTO3>> getList(){
+        List<ContractDTO3> list = iContractService.getAllDTO3();
         return new ResponseEntity<>(list,HttpStatus.OK);
     }
 
     @GetMapping("view/{id}")
-    public ResponseEntity<List<AttachFacility>> getAttachFacility(RedirectAttributes redirectAttributes, @PathVariable("id") int id) {
-       List<AttachFacility> list = iAttachFacilityService.findById2(id);
+    public ResponseEntity<List<AttachFacilityDTO>> getAttachFacility(RedirectAttributes redirectAttributes, @PathVariable("id") int id) {
+       List<AttachFacilityDTO> list = iAttachFacilityService.getAttachDTO(id);
         return new  ResponseEntity<>(list, HttpStatus.OK);
     }
     @PostMapping("/create")
