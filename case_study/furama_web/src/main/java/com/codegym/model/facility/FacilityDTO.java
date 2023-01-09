@@ -4,18 +4,24 @@ package com.codegym.model.facility;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 public class FacilityDTO implements Validator {
     private int id;
     private String name;
+    @Min(value = 0,message = "Diện tích sử dụng không được là số âm")
     private Integer area;
+    @Min(value = 0,message = "Chi phí thuê không được là số âm")
     private Double cost;
+    @Min(value = 0,message = "Số Người tối đa không được là số âm")
     private Double maxPeople;
     private String standardRoom;
     private String descriptionOtherConvenience;
+    @Min(value = 0,message = "Diện tích hồ bơi không được là số âm")
     private Double poolArea;
+    @Min(value = 1,message = "Số tầng phải là số dương")
     private Integer numberOfFloor;
     private String facilityFree;
     private RentType rentType;
@@ -118,9 +124,25 @@ public class FacilityDTO implements Validator {
     }
 
     public void check(List<Facility> list, FacilityDTO facilityDTO, Errors errors) {
-        if (facilityDTO.getName().equals("")) {
+        String nameRegex = "^[\\w ]+$";
+
+        if (facilityDTO.getName().equals("") || facilityDTO.getName() == null) {
             errors.rejectValue("name", "name", "Vui lòng nhập tên dịch vụ");
+        } else if (!facilityDTO.getName().matches(nameRegex)) {
+            errors.rejectValue("name", "name", "Tên dịch vụ không đúng định dạng");
         }
+        if (errors.getFieldError("name") == null) {
+            String[] arr = facilityDTO.getName().split(" ");
+            for (int i = 0; i < arr.length; i++) {
+                if (arr[i].charAt(0) < 65 || arr[i].charAt(0) > 90) {
+                    errors.rejectValue("name", "name", "Tên dịch vụ phải viết hoa kí tự đầu tiên");
+                    break;
+                }
+            }
+        }
+
+
+
         if (facilityDTO.getArea() == null) {
             errors.rejectValue("area", "area", "Vui lòng nhập diện tích sử dụng");
         }

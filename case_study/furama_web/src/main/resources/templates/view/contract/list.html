@@ -139,7 +139,7 @@
                     <div class="mb-3 row">
                         <label class="col-sm-2 col-form-label">Tiền Gửi</label>
                         <div class="col-sm-10">
-                            <input type="number" class="form-control" id="addDeposit" th:field="*{deposit}">
+                            <input type="number" class="form-control" onchange="validate()" id="addDeposit" th:field="*{deposit}">
                         </div>
                     </div>
                     <div class="mb-3 row">
@@ -266,7 +266,14 @@
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script>
-
+  function validate() {
+      let deposit = document.getElementById("")
+      if (deposit < 1) {
+          $('#addDeposit').style.borderColor = "red";
+      } else {
+          $('#addDeposit').style.borderColor = "green";
+      }
+  }
     function updateContract2() {
         let id = $('#idEdit').val();
         let startDate = $('#startNewDate').val();
@@ -360,11 +367,7 @@
                         $('#editModal').appendTo('body').modal('show')
                     }
                 )
-
-
-
             }
-
         })
 
     }
