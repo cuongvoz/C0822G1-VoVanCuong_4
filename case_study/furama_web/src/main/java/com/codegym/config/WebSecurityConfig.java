@@ -41,11 +41,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().authorizeRequests().antMatchers("/customer/create","home/customer/edit","home/customer/delete").hasRole("ADMIN")
                 .and()
                 .authorizeRequests()
-                .anyRequest().authenticated()
-                .and().logout().logoutUrl("/logout").logoutSuccessUrl("/logoutSuccessful");
+                .anyRequest().authenticated();
+//                .and().logout().logoutUrl("/logout").logoutSuccessUrl("/logoutSuccessful");
         http.authorizeRequests().and() //
                 .rememberMe().tokenRepository(this.persistentTokenRepository()) //
-                .tokenValiditySeconds(10); // 1 * 24 * 60 * 60 : 24h
+                .tokenValiditySeconds(1 * 24 * 60 * 60); // 1 * 24 * 60 * 60 : 24h
 
     }
 
